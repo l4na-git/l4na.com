@@ -150,6 +150,7 @@ const projects = [
   document.querySelectorAll('.details-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const index = parseInt(btn.dataset.index, 10)
+      if (!Number.isFinite(index) || index < 0 || index >= projects.length) return
       window.dispatchEvent(new CustomEvent('open-project-modal', { detail: projects[index] }))
     })
   })
