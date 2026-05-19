@@ -28,9 +28,8 @@ export function ProjectModal() {
   }, [])
 
   useEffect(() => {
-    if (project) {
-      document.body.style.overflow = "hidden"
-    }
+    if (!project) return
+    document.body.style.overflow = "hidden"
     return () => {
       document.body.style.overflow = ""
     }
