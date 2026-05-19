@@ -76,7 +76,7 @@ const projects = [
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map((project) => (
+      {projects.map((project, index) => (
         <article class="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col">
           <h3 class="text-lg font-bold text-navy mb-2">{project.title}</h3>
           <p class="text-sm text-muted-foreground mb-4 flex-grow">
@@ -132,7 +132,7 @@ const projects = [
               )}
               <button
                 class="details-btn inline-flex items-center px-3 py-1.5 text-sm rounded-lg border border-sky-medium/30 text-sky-dark hover:bg-sky-light transition-colors cursor-pointer"
-                data-project={JSON.stringify(project)}
+                data-index={index}
               >
                 詳しく
               </button>
@@ -146,11 +146,11 @@ const projects = [
   <ProjectModal client:only="react" />
 </section>
 
-<script>
-  document.querySelectorAll<HTMLButtonElement>('.details-btn').forEach((btn) => {
+<script define:vars={{ projects }}>
+  document.querySelectorAll('.details-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const project = JSON.parse(btn.dataset.project!)
-      window.dispatchEvent(new CustomEvent('open-project-modal', { detail: project }))
+      const index = parseInt(btn.dataset.index, 10)
+      window.dispatchEvent(new CustomEvent('open-project-modal', { detail: projects[index] }))
     })
   })
 </script>
