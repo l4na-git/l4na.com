@@ -37,12 +37,13 @@ export function ProjectModal() {
   }, [project])
 
   useEffect(() => {
+    if (!project) return
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setProject(null)
     }
     window.addEventListener("keydown", handleEscape)
     return () => window.removeEventListener("keydown", handleEscape)
-  }, [])
+  }, [project])
 
   if (!project) return null
 
