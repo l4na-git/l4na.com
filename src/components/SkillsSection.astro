@@ -76,11 +76,15 @@ const skillCategories = [
                 <div class="flex items-center justify-between">
                   <span class="text-sm font-medium text-navy">{skill.name}</span>
                   <div class="flex gap-1">
+                    <span class="sr-only">レベル {skill.level}/5</span>
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <span class:list={[
-                        "w-2.5 h-2.5 rounded-full",
-                        i <= skill.level ? "bg-sky-medium" : "bg-sky-light/60"
-                      ]} />
+                      <span
+                        aria-hidden="true"
+                        class:list={[
+                          "w-2.5 h-2.5 rounded-full",
+                          i <= skill.level ? "bg-sky-medium" : "bg-sky-light/60"
+                        ]}
+                      />
                     ))}
                   </div>
                 </div>
