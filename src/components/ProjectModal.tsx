@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export interface Project {
   title: string
@@ -18,6 +18,7 @@ export interface Project {
 
 export function ProjectModal() {
   const [project, setProject] = useState<Project | null>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -37,11 +38,36 @@ export function ProjectModal() {
 
   useEffect(() => {
     if (!project) return
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setProject(null)
+    const dialog = dialogRef.current
+    dialog?.focus()
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setProject(null)
+        return
+      }
+      if (e.key === "Tab" && dialog) {
+        const focusable = dialog.querySelectorAll<HTMLElement>(
+          'a[href], button, [tabindex]:not([tabindex="-1"])'
+        )
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        }
+      }
     }
-    window.addEventListener("keydown", handleEscape)
-    return () => window.removeEventListener("keydown", handleEscape)
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
   }, [project])
 
   if (!project) return null
@@ -78,10 +104,15 @@ export function ProjectModal() {
 
       {/* コンテンツ */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        tabIndex={-1}
+        ref={dialogRef}
         className="relative w-full max-w-2xl mx-4 max-h-[calc(100vh-8rem)] overflow-y-auto bg-card rounded-2xl shadow-xl p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
+        <h2 id="modal-title" className="text-2xl md:text-3xl font-bold text-navy mb-4">
           {project.title}
         </h2>
 
