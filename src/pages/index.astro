@@ -14,9 +14,14 @@ import Footer from '../components/Footer.astro';
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body>
+	<body class="min-h-screen relative">
+		<!-- グリッド背景 -->
+		<div
+			class="fixed inset-0 pointer-events-none"
+			style="background-image: linear-gradient(to right, oklch(0.85 0.04 220 / 0.3) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.85 0.04 220 / 0.3) 1px, transparent 1px); background-size: 24px 24px;"
+		></div>
 		<Header />
-		<main class="pt-24">
+		<main>
 			<HeroSection />
 		</main>
 		<Footer />
