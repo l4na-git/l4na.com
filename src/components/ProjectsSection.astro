@@ -1,0 +1,156 @@
+---
+import { ProjectModal } from './ProjectModal';
+
+const projects = [
+  {
+    title: "LiveFx",
+    description:
+      "ライブやイベント向けの双方向インタラクティブシステム。スマートフォンを使って演出に参加できる仕組み。",
+    tech: ["React", "TypeScript", "Node.js", "WebSocket", "AWS"],
+    role: "設計、フロント実装、仕様整理",
+    highlight: "参加者体験を意識した設計、リアルタイム性の検討",
+    details: `ライブやイベントで観客がスマートフォンを通じてリアルタイムで演出に参加できるシステムです。
+
+主な機能：
+- 観客のスマホ画面を一斉に制御して光の演出を実現
+- WebSocketによるリアルタイム双方向通信
+- 数百人規模の同時接続に対応した設計
+
+開発期間中に得た学び：
+- 大規模リアルタイム通信の設計パターン
+- ユーザー体験を損なわない負荷分散の考え方
+- イベント現場での運用を見据えた堅牢なエラーハンドリング`,
+    github: "https://github.com",
+    demo: "https://example.com",
+  },
+  {
+    title: "シフト管理アプリ",
+    description: "シフト提出と管理を効率化するアプリ。",
+    tech: ["GAS", "Spreadsheet", "JavaScript"],
+    role: "UI改善、機能追加、運用目線での設計",
+    highlight: "現場で使いやすい入力体験を重視",
+    details: `アルバイトスタッフのシフト提出・管理を効率化するWebアプリケーションです。
+
+主な機能：
+- カレンダー形式での直感的なシフト入力
+- 自動集計とスプレッドシート連携
+- LINEへの通知機能
+
+工夫した点：
+- スマートフォンでの操作を最優先に考えたUI設計
+- 入力ミスを防ぐバリデーションとフィードバック
+- 既存のスプレッドシート運用を活かした段階的導入`,
+    github: "https://github.com",
+  },
+  {
+    title: "ITニュース配信システム",
+    description: "ITニュースを収集・保存・配信する自動化システム。",
+    tech: ["AWS Lambda", "Supabase", "Discord Bot", "GitHub Pages"],
+    role: "構成設計、実装、データ保存設計",
+    highlight: "定期実行、自動化、データ管理",
+    details: `IT関連のニュースを自動収集し、Discord経由で配信するシステムです。
+
+アーキテクチャ：
+- AWS Lambdaによる定期的なニュース収集
+- Supabaseでのデータ永続化
+- Discord Botによる配信
+- GitHub Pagesでのアーカイブ公開
+
+技術的なポイント：
+- サーバーレスアーキテクチャによる低コスト運用
+- 重複排除とカテゴリ分類のロジック
+- 障害時の自動リトライ機構`,
+    github: "https://github.com",
+    demo: "https://example.com",
+  },
+]
+---
+
+<section id="projects" class="py-20 px-4 md:px-8 lg:px-12">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-xs font-medium text-sky-dark uppercase tracking-widest mb-2">Projects</p>
+      <h2 class="text-2xl md:text-3xl font-bold text-navy">
+        制作物
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <article class="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col">
+          <h3 class="text-lg font-bold text-navy mb-2">{project.title}</h3>
+          <p class="text-sm text-muted-foreground mb-4 flex-grow">
+            {project.description}
+          </p>
+
+          <div class="space-y-4">
+            <div class="flex flex-wrap gap-1.5">
+              {project.tech.map((t) => (
+                <span class="px-2 py-1 text-xs bg-sky-light/50 text-sky-dark rounded-md">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div class="text-xs text-muted-foreground space-y-1">
+              <p>
+                <span class="font-medium text-foreground">担当：</span>
+                {project.role}
+              </p>
+              <p>
+                <span class="font-medium text-foreground">工夫：</span>
+                {project.highlight}
+              </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-sky-medium/30 text-sky-dark hover:bg-sky-light transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                GitHub
+              </a>
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-sky-medium/30 text-sky-dark hover:bg-sky-light transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                  Demo
+                </a>
+              )}
+              <button
+                class="details-btn inline-flex items-center px-3 py-1.5 text-sm rounded-lg border border-sky-medium/30 text-sky-dark hover:bg-sky-light transition-colors cursor-pointer"
+                data-project={JSON.stringify(project)}
+              >
+                詳しく
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <ProjectModal client:only="react" />
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.details-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const project = JSON.parse(btn.dataset.project!)
+      window.dispatchEvent(new CustomEvent('open-project-modal', { detail: project }))
+    })
+  })
+</script>
