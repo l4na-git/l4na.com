@@ -1,0 +1,99 @@
+---
+const skillCategories = [
+  {
+    title: "Frontend",
+    skills: [
+      { name: "HTML", level: 5, comment: "セマンティックを意識" },
+      { name: "CSS", level: 4, comment: "Tailwind愛用" },
+      { name: "JavaScript", level: 4, comment: "ES6+に慣れてきた" },
+      { name: "React", level: 3, comment: "Hooks楽しい" },
+      { name: "Next.js", level: 3, comment: "App Router学習中" },
+    ],
+  },
+  {
+    title: "Backend",
+    skills: [
+      { name: "Node.js", level: 3, comment: "Express経験あり" },
+      { name: "Python", level: 3, comment: "自動化によく使う" },
+    ],
+  },
+  {
+    title: "Infrastructure / Cloud",
+    skills: [
+      { name: "Linux", level: 4, comment: "Ubuntu派" },
+      { name: "Docker", level: 3, comment: "開発環境構築に" },
+      { name: "AWS", level: 2, comment: "EC2, S3触った" },
+    ],
+  },
+  {
+    title: "Database",
+    skills: [
+      { name: "MySQL", level: 3, comment: "基本操作OK" },
+      { name: "PostgreSQL", level: 2, comment: "勉強中" },
+      { name: "Supabase", level: 3, comment: "個人開発で活用" },
+    ],
+  },
+  {
+    title: "Tools",
+    skills: [
+      { name: "Git", level: 4, comment: "毎日使う" },
+      { name: "GitHub", level: 4, comment: "PR運用経験あり" },
+      { name: "Figma", level: 2, comment: "デザイン確認用" },
+    ],
+  },
+  {
+    title: "Other",
+    skills: [
+      { name: "API連携", level: 3, comment: "REST API経験" },
+      { name: "自動化", level: 4, comment: "面倒なことは自動化" },
+      { name: "Security", level: 2, comment: "興味あり" },
+    ],
+  },
+]
+---
+
+<section id="skills" class="py-20 px-4 md:px-8 lg:px-12">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-xs font-medium text-sky-dark uppercase tracking-widest mb-2">Skills</p>
+      <h2 class="text-2xl md:text-3xl font-bold text-navy">
+        スキル
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {skillCategories.map((category) => (
+        <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
+          <h3 class="text-sm font-semibold text-sky-dark uppercase tracking-wider mb-4">
+            {category.title}
+          </h3>
+          <div class="flex flex-col">
+            {category.skills.map((skill, index) => (
+              <div class:list={[
+                "flex flex-col gap-1 py-3",
+                index !== category.skills.length - 1 ? "border-b border-border/60" : ""
+              ]}>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium text-navy">{skill.name}</span>
+                  <div class="flex gap-1">
+                    <span class="sr-only">レベル {skill.level}/5</span>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <span
+                        aria-hidden="true"
+                        class:list={[
+                          "w-2.5 h-2.5 rounded-full",
+                          i <= skill.level ? "bg-sky-medium" : "bg-sky-light/60"
+                        ]}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p class="text-xs text-muted-foreground">{skill.comment}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
