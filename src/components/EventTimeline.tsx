@@ -50,7 +50,7 @@ export function EventTimeline() {
       <div className="relative">
         {/* タイムラインの線 */}
         <div className="absolute left-[5.5rem] top-0 bottom-0 w-px bg-sky-light/60 hidden md:block" />
-        <div className="space-y-0">
+        <div>
           {displayed.map((activity) => (
             <div
               key={`${activity.date}-${activity.title}`}
