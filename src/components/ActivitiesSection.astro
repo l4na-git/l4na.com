@@ -1,0 +1,65 @@
+---
+import { EventTimeline } from './EventTimeline'
+
+const yearlyActivities = [
+  {
+    title: "技術イベント参加",
+    description: "勉強会やカンファレンスに参加し、最新技術のキャッチアップと交流を行っています。",
+    icon: "calendar",
+  },
+  {
+    title: "noteでの発信",
+    description: "学んだことや考えたことをnoteで発信。言語化を通じて理解を深めています。",
+    icon: "pencil",
+  },
+  {
+    title: "チーム開発経験",
+    description: "複数人での開発プロジェクトに参加し、GitやSlackを使った協働の経験があります。",
+    icon: "code",
+  },
+]
+---
+
+<section id="activities" class="py-20 px-4 md:px-8 lg:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-xs font-medium text-sky-dark uppercase tracking-widest mb-2">Activities</p>
+      <h2 class="text-2xl md:text-3xl font-bold text-navy">活動</h2>
+    </div>
+
+    <!-- 通年活動 -->
+    <div class="mb-12">
+      <h3 class="text-lg font-semibold text-navy mb-4">通年の活動</h3>
+      <div class="space-y-4">
+        {yearlyActivities.map((activity) => (
+          <div class="bg-card rounded-2xl p-5 md:p-6 shadow-sm border border-border flex gap-4 items-start">
+            <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-sky-light/70 flex items-center justify-center">
+              {activity.icon === "calendar" && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-sky-dark">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+              )}
+              {activity.icon === "pencil" && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-sky-dark">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>
+                </svg>
+              )}
+              {activity.icon === "code" && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-sky-dark">
+                  <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                </svg>
+              )}
+            </div>
+            <div>
+              <h4 class="font-semibold text-navy mb-1">{activity.title}</h4>
+              <p class="text-sm text-muted-foreground">{activity.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 単発活動タイムライン -->
+    <EventTimeline client:load />
+  </div>
+</section>
