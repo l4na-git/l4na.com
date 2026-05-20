@@ -19,9 +19,12 @@ export interface Project {
 export function ProjectModal() {
   const [project, setProject] = useState<Project | null>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const handler = (e: Event) => {
+      const active = document.activeElement
+      triggerRef.current = active instanceof HTMLElement ? active : null
       setProject((e as CustomEvent<Project>).detail)
     }
     window.addEventListener("open-project-modal", handler)
@@ -68,7 +71,10 @@ export function ProjectModal() {
     }
 
     window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      triggerRef.current?.focus()
+    }
   }, [project])
 
   if (!project) return null
@@ -91,18 +97,6 @@ export function ProjectModal() {
         }}
       />
 
-      {/* 閉じるボタン */}
-      <button
-        onClick={() => setProject(null)}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-card/80 hover:bg-card text-navy transition-colors"
-        aria-label="閉じる"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
-
       {/* コンテンツ */}
       <div
         role="dialog"
@@ -113,9 +107,22 @@ export function ProjectModal() {
         className="relative w-full max-w-2xl mx-4 max-h-[calc(100vh-8rem)] overflow-y-auto bg-card rounded-2xl shadow-xl p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="modal-title" className="text-2xl md:text-3xl font-bold text-navy mb-4">
-          {project.title}
-        </h2>
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <h2 id="modal-title" className="text-2xl md:text-3xl font-bold text-navy">
+            {project.title}
+          </h2>
+          {/* 閉じるボタン */}
+          <button
+            onClick={() => setProject(null)}
+            className="shrink-0 p-2 rounded-full bg-muted/50 hover:bg-muted text-navy transition-colors"
+            aria-label="閉じる"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
 
         {project.media && (
           <div className="mb-6 rounded-xl overflow-hidden border border-border">
