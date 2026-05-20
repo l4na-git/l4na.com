@@ -16,6 +16,19 @@ export interface Project {
   }
 }
 
+function isProject(detail: unknown): detail is Project {
+  return (
+    typeof detail === "object" &&
+    detail !== null &&
+    typeof (detail as Project).title === "string" &&
+    typeof (detail as Project).description === "string" &&
+    Array.isArray((detail as Project).tech) &&
+    typeof (detail as Project).role === "string" &&
+    typeof (detail as Project).highlight === "string" &&
+    typeof (detail as Project).github === "string"
+  )
+}
+
 export function ProjectModal() {
   const [project, setProject] = useState<Project | null>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -23,9 +36,11 @@ export function ProjectModal() {
 
   useEffect(() => {
     const handler = (e: Event) => {
+      if (!(e instanceof CustomEvent)) return
+      if (!isProject(e.detail)) return
       const active = document.activeElement
       triggerRef.current = active instanceof HTMLElement ? active : null
-      setProject((e as CustomEvent<Project>).detail)
+      setProject(e.detail)
     }
     window.addEventListener("open-project-modal", handler)
     return () => window.removeEventListener("open-project-modal", handler)
