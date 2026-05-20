@@ -50,7 +50,7 @@ export function EventTimeline() {
       <div className="relative">
         {/* タイムラインの線 */}
         <div className="absolute left-[5.5rem] top-0 bottom-0 w-px bg-sky-light/60 hidden md:block" />
-        <div>
+        <div id="timeline-list">
           {displayed.map((activity) => (
             <div
               key={`${activity.date}-${activity.title}`}
@@ -76,6 +76,8 @@ export function EventTimeline() {
           <div className="mt-6 text-center">
             <button
               onClick={() => setShowAll((v) => !v)}
+              aria-expanded={showAll}
+              aria-controls="timeline-list"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-sky-medium/50 text-sky-dark text-sm hover:bg-sky-light/50 transition-colors"
             >
               {showAll ? (
