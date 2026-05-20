@@ -81,7 +81,7 @@ export function ProjectModal() {
 
   return (
     <div
-      className="fixed inset-x-0 top-16 bottom-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[100] flex items-center justify-center"
       onClick={() => setProject(null)}
     >
       {/* グリッド背景 */}
