@@ -1,4 +1,6 @@
 ---
+import { EventTimeline } from './EventTimeline'
+
 const yearlyActivities = [
   {
     title: "技術イベント参加",
@@ -56,5 +58,8 @@ const yearlyActivities = [
         ))}
       </div>
     </div>
+
+    {/* 単発活動タイムライン */}
+    <EventTimeline client:load />
   </div>
 </section>
