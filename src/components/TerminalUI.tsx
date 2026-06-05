@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 
 const terminalLines = [
   { command: "> whoami", response: "l4na / IT student" },
-  { command: "> about", response: "Web開発・インフラ・AI活用に取り組んでいます" },
-  { command: "> message", response: "つくることを通して、\n技術と人のつながりを考えています" },
+  { command: "> about", response: "興味が湧いたことを中心に積極的に取り組んでいます。\nWeb開発、インフラ、AI、セキュリティetc..." },
+  { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです" },
 ]
 
 export function TerminalUI() {
@@ -80,7 +80,7 @@ export function TerminalUI() {
               {line.text.split("\n").map((text, i) => (
                 <p
                   key={i}
-                  className={`${line.isCommand ? "text-sky-dark font-medium" : "text-navy/80 pl-4"}`}
+                  className={`${line.isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}`}
                 >
                   {text}
                 </p>
@@ -93,7 +93,7 @@ export function TerminalUI() {
               {typingText.split("\n").map((text, i) => (
                 <p
                   key={i}
-                  className={`${isTypingCommand ? "text-sky-dark font-medium" : "text-navy/80 pl-4"}`}
+                  className={`${isTypingCommand ? "text-sky-dark" : "text-navy/80 pl-4"}`}
                 >
                   {text}
                   {i === typingText.split("\n").length - 1 && (
@@ -109,7 +109,7 @@ export function TerminalUI() {
           )}
 
           {currentLineIndex >= terminalLines.length && (
-            <p className="text-sky-dark font-medium">
+            <p className="text-sky-dark">
               {">"}{" "}
               <span
                 className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
