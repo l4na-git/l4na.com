@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 const terminalLines = [
   { command: "> whoami", response: "l4na / IT student" },
   { command: "> about", response: "興味が湧いたことを中心に積極的に取り組んでいます。\nWeb開発、インフラ、AI、セキュリティetc..." },
-  { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです" },
+  { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです :D" },
 ]
 
 export function TerminalUI() {
