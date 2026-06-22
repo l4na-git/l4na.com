@@ -110,6 +110,7 @@ const projects = [
             </div>
 
             <div class="flex flex-wrap gap-2 pt-2">
+              {project.github && (
               <a
                 href={project.github}
                 target="_blank"
@@ -121,6 +122,7 @@ const projects = [
                 </svg>
                 GitHub
               </a>
+              )}
               {project.demo && (
                 <a
                   href={project.demo}
