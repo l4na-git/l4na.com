@@ -94,9 +94,15 @@ const projects = [
 
             <div class="text-xs text-muted-foreground space-y-1">
               <p>
-                <span class="font-medium text-foreground">担当：</span>
-                {project.role}
+                <span class="font-medium text-foreground">形態：</span>
+                {project.team}
               </p>
+              {project.role && (
+                <p>
+                  <span class="font-medium text-foreground">担当：</span>
+                  {project.role}
+                </p>
+              )}
               <p>
                 <span class="font-medium text-foreground">工夫：</span>
                 {project.highlight}

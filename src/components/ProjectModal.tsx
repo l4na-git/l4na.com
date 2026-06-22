@@ -4,7 +4,8 @@ export interface Project {
   title: string
   description: string
   tech: string[]
-  role: string
+  team: string
+  role?: string
   highlight: string
   github: string
   demo?: string
@@ -23,7 +24,7 @@ function isProject(detail: unknown): detail is Project {
     typeof (detail as Project).title === "string" &&
     typeof (detail as Project).description === "string" &&
     Array.isArray((detail as Project).tech) &&
-    typeof (detail as Project).role === "string" &&
+    typeof (detail as Project).team === "string" &&
     typeof (detail as Project).highlight === "string" &&
     typeof (detail as Project).github === "string"
   )
@@ -178,9 +179,15 @@ export function ProjectModal() {
         </div>
 
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-navy mb-2">担当</h3>
-          <p className="text-sm text-muted-foreground">{project.role}</p>
+          <h3 className="text-sm font-semibold text-navy mb-2">形態</h3>
+          <p className="text-sm text-muted-foreground">{project.team}</p>
         </div>
+        {project.role && (
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-navy mb-2">担当</h3>
+            <p className="text-sm text-muted-foreground">{project.role}</p>
+          </div>
+        )}
 
         <div className="mb-8">
           <h3 className="text-sm font-semibold text-navy mb-2">工夫した点</h3>
