@@ -79,7 +79,7 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
+  --font-sans: 'Poppins', 'Sawarabi Gothic', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-sky-light: var(--sky-light);
   --color-sky-medium: var(--sky-medium);
