@@ -70,11 +70,11 @@ export function TerminalUI() {
             <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
             <div className="w-3 h-3 rounded-full bg-green-400/80" />
           </div>
-          <span className="text-xs font-mono text-navy/50 ml-2">terminal</span>
+          <span className="text-xs font-sans text-navy/50 ml-2">terminal</span>
         </div>
 
         {/* Terminal content */}
-        <div className="p-5 font-mono text-sm leading-relaxed min-h-[180px]">
+        <div className="p-5 font-sans text-sm leading-relaxed min-h-[180px]">
           {displayedLines.map((line, index) => (
             <div key={index} className="mb-2">
               {line.text.split("\n").map((text, i) => (
