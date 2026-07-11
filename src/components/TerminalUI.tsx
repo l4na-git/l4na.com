@@ -16,12 +16,30 @@ const finalLines: { text: string; isCommand: boolean }[] = [
   { text: ">", isCommand: true },
 ]
 
-function TerminalLine({ text, isCommand }: { text: string; isCommand: boolean }) {
+function TerminalLine({
+  text,
+  isCommand,
+  cursor = false,
+  showCursor = false,
+}: {
+  text: string
+  isCommand: boolean
+  cursor?: boolean
+  showCursor?: boolean
+}) {
+  const lines = text.split("\n")
   return (
     <div className="mb-2">
-      {text.split("\n").map((t, i) => (
+      {lines.map((t, i) => (
         <p key={i} className={isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}>
           {t}
+          {cursor && i === lines.length - 1 && (
+            <span
+              className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
+                showCursor ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          )}
         </p>
       ))}
     </div>
@@ -111,34 +129,11 @@ export function TerminalUI() {
             ))}
 
             {currentLineIndex < terminalLines.length && (
-              <div className="mb-2">
-                {typingText.split("\n").map((text, i) => (
-                  <p
-                    key={i}
-                    className={`${isTypingCommand ? "text-sky-dark" : "text-navy/80 pl-4"}`}
-                  >
-                    {text}
-                    {i === typingText.split("\n").length - 1 && (
-                      <span
-                        className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
-                          showCursor ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                    )}
-                  </p>
-                ))}
-              </div>
+              <TerminalLine text={typingText} isCommand={isTypingCommand} cursor showCursor={showCursor} />
             )}
 
             {currentLineIndex >= terminalLines.length && (
-              <p className="text-sky-dark">
-                {">"}{" "}
-                <span
-                  className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
-                    showCursor ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </p>
+              <TerminalLine text="> " isCommand cursor showCursor={showCursor} />
             )}
           </div>
         </div>
