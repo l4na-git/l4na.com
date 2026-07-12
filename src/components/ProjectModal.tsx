@@ -98,7 +98,7 @@ export function ProjectModal() {
 
   if (!project) return null
 
-  const hasMedia = !!project.media && project.media.length > 0
+  const hasMedia = Array.isArray(project.media) && project.media.length > 0
 
   const buttons = (
     <>
