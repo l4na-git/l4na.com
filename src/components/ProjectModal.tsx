@@ -68,9 +68,11 @@ export function ProjectModal() {
         return
       }
       if (e.key === "Tab" && dialog) {
-        const focusable = dialog.querySelectorAll<HTMLElement>(
-          'a[href], button, [tabindex]:not([tabindex="-1"])'
-        )
+        const focusable = Array.from(
+          dialog.querySelectorAll<HTMLElement>(
+            'a[href], button, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => el.offsetParent !== null)
         const first = focusable[0]
         const last = focusable[focusable.length - 1]
         if (e.shiftKey) {
