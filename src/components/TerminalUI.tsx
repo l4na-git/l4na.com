@@ -21,15 +21,17 @@ function TerminalLine({
   isCommand,
   cursor = false,
   showCursor = false,
+  withMargin = true,
 }: {
   text: string
   isCommand: boolean
   cursor?: boolean
   showCursor?: boolean
+  withMargin?: boolean
 }) {
   const lines = text.split("\n")
   return (
-    <div className="mb-2">
+    <div className={withMargin ? "mb-2" : undefined}>
       {lines.map((t, i) => (
         <p key={i} className={isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}>
           {t}
@@ -118,7 +120,12 @@ export function TerminalUI() {
           {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画してグリッドセルの高さを決定する */}
           <div className="col-start-1 row-start-1 p-5 invisible" aria-hidden="true">
             {finalLines.map((line, i) => (
-              <TerminalLine key={i} text={line.text} isCommand={line.isCommand} />
+              <TerminalLine
+                key={i}
+                text={line.text}
+                isCommand={line.isCommand}
+                withMargin={i !== finalLines.length - 1}
+              />
             ))}
           </div>
 
@@ -133,7 +140,7 @@ export function TerminalUI() {
             )}
 
             {currentLineIndex >= terminalLines.length && (
-              <TerminalLine text="> " isCommand cursor showCursor={showCursor} />
+              <TerminalLine text="> " isCommand cursor showCursor={showCursor} withMargin={false} />
             )}
           </div>
         </div>
