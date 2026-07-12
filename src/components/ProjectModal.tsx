@@ -96,6 +96,41 @@ export function ProjectModal() {
 
   if (!project) return null
 
+  const hasMedia = !!project.media && project.media.length > 0
+
+  const buttons = (
+    <>
+      {project.github && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 h-9 px-4 rounded-xl bg-sky-medium hover:bg-sky-dark text-white text-sm font-medium transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          GitHub
+        </a>
+      )}
+      {project.demo && (
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 h-9 px-4 rounded-xl border-2 border-sky-medium/50 text-sky-dark hover:bg-sky-light text-sm font-medium transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          Demo
+        </a>
+      )}
+    </>
+  )
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center"
@@ -122,7 +157,7 @@ export function ProjectModal() {
         tabIndex={-1}
         ref={dialogRef}
         className={`relative w-full mx-4 max-h-[calc(100vh-8rem)] overflow-y-auto bg-card rounded-2xl shadow-xl p-8 ${
-          project.media && project.media.length > 0 ? "max-w-4xl" : "max-w-2xl"
+          hasMedia ? "max-w-4xl" : "max-w-2xl"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -143,14 +178,8 @@ export function ProjectModal() {
           </button>
         </div>
 
-        <div
-          className={
-            project.media && project.media.length > 0
-              ? "flex flex-col md:grid md:grid-cols-[minmax(0,1fr)_18rem] md:gap-6"
-              : undefined
-          }
-        >
-          <div className={project.media && project.media.length > 0 ? "order-1 md:col-start-1 md:row-start-1" : undefined}>
+        <div className={hasMedia ? "flex flex-col md:flex-row md:items-start md:gap-6" : undefined}>
+          <div className={hasMedia ? "md:min-w-0 md:flex-1" : undefined}>
             <p className="text-muted-foreground mb-6">{project.description}</p>
 
             {project.details && (
@@ -184,16 +213,18 @@ export function ProjectModal() {
               </div>
             )}
 
-            <div className="mb-8 md:mb-0">
+            <div className="mb-8">
               <h3 className="text-sm font-semibold text-navy mb-2">工夫した点</h3>
               <p className="text-sm text-muted-foreground">{project.highlight}</p>
             </div>
+
+            {hasMedia && <div className="hidden md:flex gap-3">{buttons}</div>}
           </div>
 
-          {project.media && project.media.length > 0 && (
-            <div className="order-2 md:col-start-2 md:row-start-1 md:row-span-2 mb-8 md:mb-0 mt-6 md:mt-0">
+          {hasMedia && (
+            <div className="md:w-72 md:shrink-0 mb-8 md:mb-0">
               <div className="flex flex-wrap gap-2 mb-3">
-                {project.media.map((m, i) => (
+                {project.media!.map((m, i) => (
                   <button
                     key={m.src}
                     onClick={() => setSelectedMedia(i)}
@@ -211,14 +242,14 @@ export function ProjectModal() {
                 ))}
               </div>
               <div className="rounded-xl overflow-hidden border border-border">
-                {project.media[selectedMedia].type === "image" ? (
+                {project.media![selectedMedia].type === "image" ? (
                   <img
-                    src={project.media[selectedMedia].src}
-                    alt={project.media[selectedMedia].alt || project.title}
+                    src={project.media![selectedMedia].src}
+                    alt={project.media![selectedMedia].alt || project.title}
                     className="w-full h-auto object-cover"
                   />
                 ) : (
-                  <video src={project.media[selectedMedia].src} controls className="w-full h-auto">
+                  <video src={project.media![selectedMedia].src} controls className="w-full h-auto">
                     お使いのブラウザは動画再生に対応していません。
                   </video>
                 )}
@@ -226,40 +257,7 @@ export function ProjectModal() {
             </div>
           )}
 
-          <div
-            className={
-              project.media && project.media.length > 0
-                ? "order-3 md:col-start-1 md:row-start-2 flex gap-3"
-                : "flex gap-3"
-            }
-          >
-            {project.github && <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 h-9 px-4 rounded-xl bg-sky-medium hover:bg-sky-dark text-white text-sm font-medium transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-              GitHub
-            </a>}
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 h-9 px-4 rounded-xl border-2 border-sky-medium/50 text-sky-dark hover:bg-sky-light text-sm font-medium transition-colors"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Demo
-              </a>
-            )}
-          </div>
+          <div className={hasMedia ? "flex md:hidden gap-3" : "flex gap-3"}>{buttons}</div>
         </div>
       </div>
     </div>
