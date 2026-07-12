@@ -6,6 +6,49 @@ const terminalLines = [
   { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです :D" },
 ]
 
+// アニメーション完了後に必要な全体の高さを事前確保するための最終表示行
+// (完了後に表示される待機プロンプト行の分もダミーとして含める)
+const finalLines: { text: string; isCommand: boolean }[] = [
+  ...terminalLines.flatMap((line) => [
+    { text: line.command, isCommand: true },
+    { text: line.response, isCommand: false },
+  ]),
+  { text: ">", isCommand: true },
+]
+
+function TerminalLine({
+  text,
+  isCommand,
+  cursor = false,
+  showCursor = false,
+  withMargin = true,
+}: {
+  text: string
+  isCommand: boolean
+  cursor?: boolean
+  showCursor?: boolean
+  withMargin?: boolean
+}) {
+  const lines = text.split("\n")
+  return (
+    <div className={withMargin ? "mb-2" : undefined}>
+      {lines.map((t, i) => (
+        <p key={i} className={isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}>
+          {t}
+          {cursor && i === lines.length - 1 && (
+            <span
+              aria-hidden="true"
+              className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
+                showCursor ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          )}
+        </p>
+      ))}
+    </div>
+  )
+}
+
 export function TerminalUI() {
   const [displayedLines, setDisplayedLines] = useState<{ text: string; isCommand: boolean }[]>([])
   const [currentLineIndex, setCurrentLineIndex] = useState(0)
@@ -74,50 +117,33 @@ export function TerminalUI() {
         </div>
 
         {/* Terminal content */}
-        <div className="p-5 font-sans text-sm leading-relaxed min-h-[180px]">
-          {displayedLines.map((line, index) => (
-            <div key={index} className="mb-2">
-              {line.text.split("\n").map((text, i) => (
-                <p
-                  key={i}
-                  className={`${line.isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}`}
-                >
-                  {text}
-                </p>
-              ))}
-            </div>
-          ))}
-
-          {currentLineIndex < terminalLines.length && (
-            <div className="mb-2">
-              {typingText.split("\n").map((text, i) => (
-                <p
-                  key={i}
-                  className={`${isTypingCommand ? "text-sky-dark" : "text-navy/80 pl-4"}`}
-                >
-                  {text}
-                  {i === typingText.split("\n").length - 1 && (
-                    <span
-                      className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
-                        showCursor ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                  )}
-                </p>
-              ))}
-            </div>
-          )}
-
-          {currentLineIndex >= terminalLines.length && (
-            <p className="text-sky-dark">
-              {">"}{" "}
-              <span
-                className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
-                  showCursor ? "opacity-100" : "opacity-0"
-                }`}
+        <div className="grid font-sans text-sm leading-relaxed">
+          {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画してグリッドセルの高さを決定する */}
+          <div className="col-start-1 row-start-1 p-5 invisible" aria-hidden="true">
+            {finalLines.map((line, i) => (
+              <TerminalLine
+                key={i}
+                text={line.text}
+                isCommand={line.isCommand}
+                withMargin={i !== finalLines.length - 1}
               />
-            </p>
-          )}
+            ))}
+          </div>
+
+          {/* 実際にアニメーションする表示コンテンツ */}
+          <div className="col-start-1 row-start-1 p-5">
+            {displayedLines.map((line, index) => (
+              <TerminalLine key={index} text={line.text} isCommand={line.isCommand} />
+            ))}
+
+            {currentLineIndex < terminalLines.length && (
+              <TerminalLine text={typingText} isCommand={isTypingCommand} cursor showCursor={showCursor} />
+            )}
+
+            {currentLineIndex >= terminalLines.length && (
+              <TerminalLine text="> " isCommand cursor showCursor={showCursor} withMargin={false} />
+            )}
+          </div>
         </div>
       </div>
     </div>
