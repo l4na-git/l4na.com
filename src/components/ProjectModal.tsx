@@ -14,7 +14,7 @@ export interface Project {
     type: "image" | "video"
     src: string
     alt?: string
-  }
+  }[]
 }
 
 function isProject(detail: unknown): detail is Project {
