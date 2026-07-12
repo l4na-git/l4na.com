@@ -37,6 +37,7 @@ function TerminalLine({
           {t}
           {cursor && i === lines.length - 1 && (
             <span
+              aria-hidden="true"
               className={`inline-block w-2 h-4 ml-0.5 align-middle bg-sky-medium ${
                 showCursor ? "opacity-100" : "opacity-0"
               }`}
