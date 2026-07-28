@@ -37,6 +37,7 @@
   --sidebar-accent-foreground: oklch(0.25 0.03 240);
   --sidebar-border: oklch(0.88 0.03 220);
   --sidebar-ring: oklch(0.65 0.15 220);
+  --sky-pale: oklch(0.965 0.015 220);
   --sky-light: oklch(0.92 0.04 220);
   --sky-medium: oklch(0.65 0.15 220);
   --sky-dark: oklch(0.45 0.10 230);
@@ -81,6 +82,7 @@
 @theme inline {
   --font-sans: 'Poppins', 'Sawarabi Gothic', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-sky-pale: var(--sky-pale);
   --color-sky-light: var(--sky-light);
   --color-sky-medium: var(--sky-medium);
   --color-sky-dark: var(--sky-dark);
