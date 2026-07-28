@@ -13,6 +13,7 @@ const HELP_TEXT = [
   "  help          show this message",
   "  ls            list sections",
   "  cd <section>  jump to a section",
+  "  clear         clear the screen",
 ].join("\n")
 
 function runCommand(raw: string, rmAttemptsRef: { current: number }): string {
@@ -99,6 +100,7 @@ export function TerminalUI() {
   const [inputValue, setInputValue] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
   const rmAttemptsRef = useRef(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   // カーソルの点滅
   useEffect(() => {
@@ -146,10 +148,21 @@ export function TerminalUI() {
     }
   }, [currentLineIndex])
 
+  // 新しい行が増えるたびに一番下までスクロールする
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [displayedLines, commandHistory, currentCharIndex])
+
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return
     const raw = inputValue
     setInputValue("")
+
+    if (raw.trim().toLowerCase() === "clear") {
+      setCommandHistory([])
+      return
+    }
 
     const output = runCommand(raw, rmAttemptsRef)
     setCommandHistory((prev) => [
@@ -181,9 +194,9 @@ export function TerminalUI() {
         </div>
 
         {/* Terminal content */}
-        <div className="grid font-sans text-sm leading-relaxed">
-          {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画してグリッドセルの高さを決定する */}
-          <div className="col-start-1 row-start-1 p-5 invisible" aria-hidden="true">
+        <div className="relative font-sans text-sm leading-relaxed">
+          {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画して高さを決定する */}
+          <div className="p-5 invisible" aria-hidden="true">
             {finalLines.map((line, i) => (
               <TerminalLine
                 key={i}
@@ -194,8 +207,8 @@ export function TerminalUI() {
             ))}
           </div>
 
-          {/* 実際にアニメーションする表示コンテンツ */}
-          <div className="col-start-1 row-start-1 p-5">
+          {/* 実際に表示するコンテンツ。プレースホルダーと同じ高さの枠内で内部スクロールする */}
+          <div ref={scrollRef} className="absolute inset-0 overflow-y-auto p-5">
             {displayedLines.map((line, index) => (
               <TerminalLine key={index} text={line.text} isCommand={line.isCommand} />
             ))}
