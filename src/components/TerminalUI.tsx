@@ -1,10 +1,45 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const terminalLines = [
   { command: "> whoami", response: "l4na / IT student" },
   { command: "> about", response: "興味が湧いたことを中心に積極的に取り組んでいます。\nWeb開発、インフラ、AI、セキュリティetc..." },
   { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです :D" },
 ]
+
+const sections = ["about", "skills", "projects", "activities", "contact"] as const
+
+const HELP_TEXT = [
+  "available commands:",
+  "  help          show this message",
+  "  ls            list sections",
+  "  cd <section>  jump to a section",
+].join("\n")
+
+function runCommand(raw: string): string {
+  const trimmed = raw.trim()
+  const [cmd, ...args] = trimmed.split(/\s+/)
+  const cmdLower = (cmd ?? "").toLowerCase()
+
+  switch (cmdLower) {
+    case "":
+      return "command not found"
+    case "help":
+      return HELP_TEXT
+    case "ls":
+      return sections.join("  ")
+    case "cd": {
+      const target = (args[0] ?? "").toLowerCase()
+      if (!target) return "cd: missing operand"
+      if (!sections.includes(target as (typeof sections)[number])) {
+        return `cd: no such section: ${args[0]}`
+      }
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth" })
+      return `moved to #${target}`
+    }
+    default:
+      return `command not found: ${cmd}`
+  }
+}
 
 // アニメーション完了後に必要な全体の高さを事前確保するための最終表示行
 // (完了後に表示される待機プロンプト行の分もダミーとして含める)
@@ -55,6 +90,9 @@ export function TerminalUI() {
   const [currentCharIndex, setCurrentCharIndex] = useState(0)
   const [isTypingCommand, setIsTypingCommand] = useState(true)
   const [showCursor, setShowCursor] = useState(true)
+  const [commandHistory, setCommandHistory] = useState<{ text: string; isCommand: boolean }[]>([])
+  const [inputValue, setInputValue] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // カーソルの点滅
   useEffect(() => {
@@ -94,6 +132,26 @@ export function TerminalUI() {
       return () => clearTimeout(timeout)
     }
   }, [currentLineIndex, currentCharIndex, isTypingCommand])
+
+  // デモ完了後、入力欄に自動でフォーカスする
+  useEffect(() => {
+    if (currentLineIndex >= terminalLines.length) {
+      inputRef.current?.focus()
+    }
+  }, [currentLineIndex])
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return
+    const raw = inputValue
+    setInputValue("")
+
+    const output = runCommand(raw)
+    setCommandHistory((prev) => [
+      ...prev,
+      { text: `> ${raw}`, isCommand: true },
+      { text: output, isCommand: false },
+    ])
+  }
 
   const currentLine = terminalLines[currentLineIndex]
   const textToType = currentLine
@@ -141,7 +199,25 @@ export function TerminalUI() {
             )}
 
             {currentLineIndex >= terminalLines.length && (
-              <TerminalLine text="> " isCommand cursor showCursor={showCursor} withMargin={false} />
+              <>
+                {commandHistory.map((line, i) => (
+                  <TerminalLine key={`cmd-${i}`} text={line.text} isCommand={line.isCommand} />
+                ))}
+                <div className="flex items-center">
+                  <span className="text-sky-dark">{"> "}</span>
+                  <input
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="flex-1 bg-transparent outline-none border-none text-sky-dark font-sans text-sm caret-sky-medium"
+                    aria-label="terminal command input"
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
