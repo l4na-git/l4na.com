@@ -15,7 +15,7 @@ const HELP_TEXT = [
   "  cd <section>  jump to a section",
 ].join("\n")
 
-function runCommand(raw: string): string {
+function runCommand(raw: string, rmAttemptsRef: { current: number }): string {
   const trimmed = raw.trim()
   const [cmd, ...args] = trimmed.split(/\s+/)
   const cmdLower = (cmd ?? "").toLowerCase()
@@ -36,8 +36,13 @@ function runCommand(raw: string): string {
       document.getElementById(target)?.scrollIntoView({ behavior: "smooth" })
       return `moved to #${target}`
     }
-    default:
+    default: {
+      if (trimmed.toLowerCase().replace(/\s+/g, " ") === "rm -rf /") {
+        rmAttemptsRef.current += 1
+        return rmAttemptsRef.current === 1 ? "...why would you do that." : "seriously?"
+      }
       return `command not found: ${cmd}`
+    }
   }
 }
 
@@ -93,6 +98,7 @@ export function TerminalUI() {
   const [commandHistory, setCommandHistory] = useState<{ text: string; isCommand: boolean }[]>([])
   const [inputValue, setInputValue] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
+  const rmAttemptsRef = useRef(0)
 
   // カーソルの点滅
   useEffect(() => {
@@ -145,7 +151,7 @@ export function TerminalUI() {
     const raw = inputValue
     setInputValue("")
 
-    const output = runCommand(raw)
+    const output = runCommand(raw, rmAttemptsRef)
     setCommandHistory((prev) => [
       ...prev,
       { text: `> ${raw}`, isCommand: true },
