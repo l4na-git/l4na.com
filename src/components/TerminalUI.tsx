@@ -222,14 +222,20 @@ export function TerminalUI() {
                 {commandHistory.map((line, i) => (
                   <TerminalLine key={`cmd-${i}`} text={line.text} isCommand={line.isCommand} />
                 ))}
-                <div className="flex items-center">
-                  <span className="text-sky-dark">{"> "}</span>
+                <div className="relative">
+                  <TerminalLine
+                    text={`> ${inputValue}`}
+                    isCommand
+                    cursor
+                    showCursor={showCursor}
+                    withMargin={false}
+                  />
                   <input
                     ref={inputRef}
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 bg-transparent outline-none border-none text-sky-dark font-sans text-sm caret-sky-medium"
+                    className="absolute inset-0 w-full opacity-0 outline-none border-none"
                     aria-label="terminal command input"
                     autoComplete="off"
                     autoCapitalize="off"
