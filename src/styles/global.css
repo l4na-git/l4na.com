@@ -123,6 +123,21 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@layer components {
+  /* ページ全体の背景に敷く方眼 */
+  .grid-background {
+    --grid-size: 32px;
+    --grid-color: oklch(0.85 0.04 220);
+    --grid-opacity: 0.3;
+
+    opacity: var(--grid-opacity);
+    background-image:
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
