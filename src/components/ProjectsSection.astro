@@ -33,7 +33,7 @@ const projects = [
   {
     title: "LiveFx LP",
     description:
-      "LiveFxを紹介するLP",
+      "LiveFxを紹介するLP。3Dモデルをタップして回転させることができる。",
     tech: ["Figma", "TypeScript", "Astro", "OpenSCAD", "Blender"],
     team: "チーム開発（LiveFxプロジェクト内）",
     role: "デザイン〜実装",
@@ -53,11 +53,12 @@ const projects = [
 - Figmaを使ったデザインレビューの進め方
 - SEO / LLMO
 - Googleアナリティクス`,
+    github: "https://github.com/SIWLiveFX/LiveFx-site",
     demo: "https://livefx.siw.ac.jp",
   },
   {
     title: "シフト管理アプリ",
-    description: "シフト提出と管理を効率化するアプリ。",
+    description: "シフト提出と管理を効率化するアプリ",
     tech: ["GoogleAppsScript", "Spreadsheet", "JavaScript", "clasp"],
     team: "チーム開発（9人）",
     role: "機能実装、設計、ドキュメント整備",
@@ -74,7 +75,12 @@ const projects = [
 - 入力ミスを防ぐバリデーションとフィードバック
 - アクセスやエラー時のログ集計機能
 - clasp を活用した開発体験向上
-- 1期生として、後続メンバーが参加しやすい開発フロー・ドキュメントの整備`,
+- 1期生として、後続メンバーが参加しやすい開発フロー・ドキュメントの整備
+
+現在：
+- 1回目の納品を終え、実際に保育園で運用中
+- 現場からの改善要望をヒアリングし、継続的に改善していく予定
+- フレームワーク未採用で改修しづらい状態だったため、TypeScript + Vue.js + Viteの構成にリプレース中`,
     github: "https://github.com/SIW-ShiftSystem/shift-app-public",
     media: [
       { type: "image", src: "/projects/shift-app-1.png", alt: "シフト管理アプリ ログイン画面" },
@@ -87,7 +93,7 @@ const projects = [
   },
   {
     title: "ITニュース配信システム",
-    description: "ITニュースを収集・配信する自動化システム。",
+    description: "ITニュースを収集・配信する自動化システム",
     tech: ["AWS Lambda", "Amazon EventBridge", "Discord Bot", "RSS"],
     team: "自主制作",
     highlight: "定期実行、自動化",
@@ -253,6 +259,55 @@ pygame・Fletなど複数のフレームワークを試した末にStreamlitを�
     demo: "https://space-parallax-nu.vercel.app",
     media: [
       { type: "image", src: "/projects/space-parallax-1.png", alt: "SpaceParallax プレイ画面" },
+    ],
+  },
+  {
+    title: "l4na.com",
+    description: "このポートフォリオサイト",
+    tech: ["Astro", "React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
+    team: "自主制作",
+    highlight: "AIを活用しつつ、構成や品質面の判断は自分で行う",
+    details: `このポートフォリオサイト自体の制作です。
+デザインはv0で作成し、Astro + Reactで実装しました。
+
+主な取り組み：
+- v0のNext.jsベースのデザインをAstroに移植
+- 静的コンポーネント（.astro）とインタラクティブコンポーネント（.tsx）を分離する構成に再設計
+- Cloudflare Pagesでホスティング（PRごとのプレビューURLを活用）
+
+工夫した点・学び：
+- AIに実装を任せる際も一貫した基準になるよう、コンポーネント分割ルールを明文化
+- 実装のほとんどをAIと協働
+- 設計方針や品質面の判断は自分で行った`,
+    github: "https://github.com/l4na-git/l4na.com",
+    demo: "https://www.l4na.com",
+  },
+  {
+    title: "RinTune",
+    description: "時間を自分の手に取り戻すことをテーマにした、生活リズムを整えるモバイルアプリのUIデザイン",
+    tech: ["Figma"],
+    team: "授業課題",
+    highlight: "ペルソナ分析と狩野モデルによる機能優先度整理を経て、UIのトーン・配色までを考える",
+    details: `2年次の授業課題として制作。「時間は誰かに決められるものではなく、自分でコントロールするもの」というコンセプトのもと、生活リズムを整えるモバイルアプリをFigmaでデザインしました。
+
+工夫した点・学び：
+- コンセプトをUIの雰囲気やトーンに落とし込むこと
+- 授業で学んだFigmaのコンポーネント・バリアントを活用し保守しやすいデザインファイルを構築
+- 授業課題としてコンセプト設計からプロトタイピングまで一人で担当`,
+    demo: "https://www.figma.com/proto/s69luAQg0ITYfXRCbqk4tk/RinTune?node-id=6690-5244&p=f&viewport=285%2C-1061%2C0.46&t=5gW8E79KOVmVTLMk-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=6671%3A2258&show-proto-sidebar=1&page-id=6003%3A418",
+    media: [
+      { type: "image", src: "/projects/rintune-1.png", alt: "RinTune 表紙" },
+      { type: "image", src: "/projects/rintune-2.png", alt: "RinTune Introduction" },
+      { type: "image", src: "/projects/rintune-3.png", alt: "RinTune ペルソナ01" },
+      { type: "image", src: "/projects/rintune-4.png", alt: "RinTune ペルソナ02" },
+      { type: "image", src: "/projects/rintune-5.png", alt: "RinTune ブランドパーソナリティ" },
+      { type: "image", src: "/projects/rintune-6.png", alt: "RinTune ブランドポジション" },
+      { type: "image", src: "/projects/rintune-7.png", alt: "RinTune 狩野の品質モデル" },
+      { type: "image", src: "/projects/rintune-8.png", alt: "RinTune サイトマップ" },
+      { type: "image", src: "/projects/rintune-9.png", alt: "RinTune 要素の洗い出し" },
+      { type: "image", src: "/projects/rintune-10.png", alt: "RinTune キーワード" },
+      { type: "image", src: "/projects/rintune-11.png", alt: "RinTune カラーマップ" },
+      { type: "image", src: "/projects/rintune-12.png", alt: "RinTune 配色" },
     ],
   },
 ]
