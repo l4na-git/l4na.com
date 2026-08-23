@@ -1,10 +1,51 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const terminalLines = [
   { command: "> whoami", response: "l4na / IT student" },
   { command: "> about", response: "興味が湧いたことを中心に積極的に取り組んでいます。\nWeb開発、インフラ、AI、セキュリティetc..." },
   { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです :D" },
 ]
+
+const sections = ["about", "skills", "projects", "activities", "contact"] as const
+
+const HELP_TEXT = [
+  "available commands:",
+  "  help          show this message",
+  "  ls            list sections",
+  "  cd <section>  jump to a section",
+  "  clear         clear the screen",
+].join("\n")
+
+function runCommand(raw: string, rmAttemptsRef: { current: number }): string {
+  const trimmed = raw.trim()
+  const [cmd, ...args] = trimmed.split(/\s+/)
+  const cmdLower = (cmd ?? "").toLowerCase()
+
+  switch (cmdLower) {
+    case "":
+      return "command not found"
+    case "help":
+      return HELP_TEXT
+    case "ls":
+      return sections.join("  ")
+    case "cd": {
+      const target = (args[0] ?? "").toLowerCase()
+      if (!target) return "cd: missing operand"
+      if (!sections.includes(target as (typeof sections)[number])) {
+        return `cd: no such section: ${args[0]}`
+      }
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth" })
+      return `moved to #${target}`
+    }
+    default: {
+      if (trimmed.toLowerCase().replace(/\s+/g, " ") === "rm -rf /") {
+        rmAttemptsRef.current += 1
+        return rmAttemptsRef.current === 1 ? "...why would you do that." : "seriously?"
+      }
+      return `command not found: ${cmd}`
+    }
+  }
+}
 
 // アニメーション完了後に必要な全体の高さを事前確保するための最終表示行
 // (完了後に表示される待機プロンプト行の分もダミーとして含める)
@@ -33,7 +74,7 @@ function TerminalLine({
   return (
     <div className={withMargin ? "mb-2" : undefined}>
       {lines.map((t, i) => (
-        <p key={i} className={isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}>
+        <p key={i} className={isCommand ? "text-sky-dark whitespace-pre-wrap" : "text-navy/80 pl-4 whitespace-pre-wrap"}>
           {t}
           {cursor && i === lines.length - 1 && (
             <span
@@ -55,6 +96,11 @@ export function TerminalUI() {
   const [currentCharIndex, setCurrentCharIndex] = useState(0)
   const [isTypingCommand, setIsTypingCommand] = useState(true)
   const [showCursor, setShowCursor] = useState(true)
+  const [commandHistory, setCommandHistory] = useState<{ text: string; isCommand: boolean }[]>([])
+  const [inputValue, setInputValue] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
+  const rmAttemptsRef = useRef(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   // カーソルの点滅
   useEffect(() => {
@@ -95,6 +141,37 @@ export function TerminalUI() {
     }
   }, [currentLineIndex, currentCharIndex, isTypingCommand])
 
+  // デモ完了後、入力欄に自動でフォーカスする
+  useEffect(() => {
+    if (currentLineIndex >= terminalLines.length) {
+      inputRef.current?.focus()
+    }
+  }, [currentLineIndex])
+
+  // 新しい行が増えるたびに一番下までスクロールする
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [displayedLines, commandHistory, currentCharIndex])
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return
+    const raw = inputValue
+    setInputValue("")
+
+    if (raw.trim().toLowerCase() === "clear") {
+      setCommandHistory([])
+      return
+    }
+
+    const output = runCommand(raw, rmAttemptsRef)
+    setCommandHistory((prev) => [
+      ...prev,
+      { text: `> ${raw}`, isCommand: true },
+      { text: output, isCommand: false },
+    ])
+  }
+
   const currentLine = terminalLines[currentLineIndex]
   const textToType = currentLine
     ? isTypingCommand
@@ -117,9 +194,9 @@ export function TerminalUI() {
         </div>
 
         {/* Terminal content */}
-        <div className="grid font-sans text-sm leading-relaxed">
-          {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画してグリッドセルの高さを決定する */}
-          <div className="col-start-1 row-start-1 p-5 invisible" aria-hidden="true">
+        <div className="relative font-mono font-medium text-sm leading-relaxed">
+          {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画して高さを決定する */}
+          <div className="p-5 invisible" aria-hidden="true">
             {finalLines.map((line, i) => (
               <TerminalLine
                 key={i}
@@ -130,8 +207,8 @@ export function TerminalUI() {
             ))}
           </div>
 
-          {/* 実際にアニメーションする表示コンテンツ */}
-          <div className="col-start-1 row-start-1 p-5">
+          {/* 実際に表示するコンテンツ。プレースホルダーと同じ高さの枠内で内部スクロールする */}
+          <div ref={scrollRef} className="absolute inset-0 overflow-y-auto p-5">
             {displayedLines.map((line, index) => (
               <TerminalLine key={index} text={line.text} isCommand={line.isCommand} />
             ))}
@@ -141,7 +218,33 @@ export function TerminalUI() {
             )}
 
             {currentLineIndex >= terminalLines.length && (
-              <TerminalLine text="> " isCommand cursor showCursor={showCursor} withMargin={false} />
+              <>
+                {commandHistory.map((line, i) => (
+                  <TerminalLine key={`cmd-${i}`} text={line.text} isCommand={line.isCommand} />
+                ))}
+                <div className="relative">
+                  <div aria-hidden="true">
+                    <TerminalLine
+                      text={`> ${inputValue}`}
+                      isCommand
+                      cursor
+                      showCursor={showCursor}
+                      withMargin={false}
+                    />
+                  </div>
+                  <input
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="absolute inset-0 w-full opacity-0 outline-none border-none"
+                    aria-label="terminal command input"
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
