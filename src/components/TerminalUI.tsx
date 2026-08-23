@@ -141,13 +141,6 @@ export function TerminalUI() {
     }
   }, [currentLineIndex, currentCharIndex, isTypingCommand])
 
-  // デモ完了後、入力欄に自動でフォーカスする
-  useEffect(() => {
-    if (currentLineIndex >= terminalLines.length) {
-      inputRef.current?.focus()
-    }
-  }, [currentLineIndex])
-
   // 新しい行が増えるたびに一番下までスクロールする
   useEffect(() => {
     const el = scrollRef.current
@@ -208,7 +201,11 @@ export function TerminalUI() {
           </div>
 
           {/* 実際に表示するコンテンツ。プレースホルダーと同じ高さの枠内で内部スクロールする */}
-          <div ref={scrollRef} className="absolute inset-0 overflow-y-auto p-5">
+          <div
+            ref={scrollRef}
+            className="absolute inset-0 overflow-y-auto p-5"
+            onClick={() => inputRef.current?.focus()}
+          >
             {displayedLines.map((line, index) => (
               <TerminalLine key={index} text={line.text} isCommand={line.isCommand} />
             ))}
