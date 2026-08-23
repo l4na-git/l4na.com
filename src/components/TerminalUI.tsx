@@ -74,7 +74,7 @@ function TerminalLine({
   return (
     <div className={withMargin ? "mb-2" : undefined}>
       {lines.map((t, i) => (
-        <p key={i} className={isCommand ? "text-sky-dark" : "text-navy/80 pl-4"}>
+        <p key={i} className={isCommand ? "text-sky-dark whitespace-pre-wrap" : "text-navy/80 pl-4 whitespace-pre-wrap"}>
           {t}
           {cursor && i === lines.length - 1 && (
             <span
