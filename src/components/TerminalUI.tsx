@@ -223,13 +223,15 @@ export function TerminalUI() {
                   <TerminalLine key={`cmd-${i}`} text={line.text} isCommand={line.isCommand} />
                 ))}
                 <div className="relative">
-                  <TerminalLine
-                    text={`> ${inputValue}`}
-                    isCommand
-                    cursor
-                    showCursor={showCursor}
-                    withMargin={false}
-                  />
+                  <div aria-hidden="true">
+                    <TerminalLine
+                      text={`> ${inputValue}`}
+                      isCommand
+                      cursor
+                      showCursor={showCursor}
+                      withMargin={false}
+                    />
+                  </div>
                   <input
                     ref={inputRef}
                     value={inputValue}
