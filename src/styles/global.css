@@ -80,7 +80,7 @@
 
 @theme inline {
   --font-sans: 'Poppins', 'Sawarabi Gothic', sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-mono: 'JetBrains Mono', 'Sawarabi Gothic', monospace;
   --color-sky-light: var(--sky-light);
   --color-sky-medium: var(--sky-medium);
   --color-sky-dark: var(--sky-dark);

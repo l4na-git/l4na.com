@@ -194,7 +194,7 @@ export function TerminalUI() {
         </div>
 
         {/* Terminal content */}
-        <div className="relative font-sans text-sm leading-relaxed">
+        <div className="relative font-mono font-medium text-sm leading-relaxed">
           {/* 高さ確保用の不可視プレースホルダー。最終コンテンツをそのまま描画して高さを決定する */}
           <div className="p-5 invisible" aria-hidden="true">
             {finalLines.map((line, i) => (
