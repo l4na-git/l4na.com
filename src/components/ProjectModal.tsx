@@ -40,6 +40,19 @@ export function ProjectModal() {
   const dialogRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
 
+  const selectedMediaRef = useRef(0)
+  selectedMediaRef.current = selectedMedia
+
+  const media = project?.media
+  const navigateMedia = (direction: 1 | -1) => {
+    if (!media || media.length <= 1) return
+    const nextIndex = (selectedMediaRef.current + direction + media.length) % media.length
+    // 次のメディアが画像でない場合、Zoomコンポーネント自体が消えて
+    // isZoomedがfalseに更新されないままになるためここでリセットしておく
+    if (media[nextIndex].type !== "image") setIsZoomed(false)
+    setSelectedMedia(nextIndex)
+  }
+
   useEffect(() => {
     const handler = (e: Event) => {
       if (!(e instanceof CustomEvent)) return
@@ -68,6 +81,14 @@ export function ProjectModal() {
     dialog?.focus()
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        navigateMedia(1)
+        return
+      }
+      if (e.key === "ArrowLeft") {
+        navigateMedia(-1)
+        return
+      }
       if (isZoomedRef.current) return
       if (e.key === "Escape") {
         setProject(null)
@@ -253,7 +274,40 @@ export function ProjectModal() {
               </div>
               <div className="rounded-xl overflow-hidden border border-border">
                 {project.media![selectedMedia].type === "image" ? (
-                  <Zoom zoomMargin={24} onZoomChange={setIsZoomed}>
+                  <Zoom
+                    zoomMargin={24}
+                    onZoomChange={setIsZoomed}
+                    ZoomContent={
+                      project.media!.length > 1
+                        ? ({ img, buttonUnzoom }) => (
+                            <>
+                              {img}
+                              {buttonUnzoom}
+                              <button
+                                type="button"
+                                onClick={() => navigateMedia(-1)}
+                                aria-label="前の画像"
+                                className="absolute top-1/2 left-5 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => navigateMedia(1)}
+                                aria-label="次の画像"
+                                className="absolute top-1/2 right-5 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                              </button>
+                            </>
+                          )
+                        : undefined
+                    }
+                  >
                     <img
                       src={project.media![selectedMedia].src}
                       alt={project.media![selectedMedia].alt || project.title}
