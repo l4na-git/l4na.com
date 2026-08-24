@@ -303,6 +303,9 @@ export function ProjectModal() {
                                   <polyline points="9 18 15 12 9 6" />
                                 </svg>
                               </button>
+                              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 text-white text-sm">
+                                {selectedMedia + 1} / {project.media!.length}
+                              </div>
                             </>
                           )
                         : undefined
