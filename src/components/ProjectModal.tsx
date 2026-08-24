@@ -44,13 +44,16 @@ export function ProjectModal() {
   selectedMediaRef.current = selectedMedia
 
   const media = project?.media
+  const selectMedia = (index: number) => {
+    // 切り替え先が画像でない場合、Zoomコンポーネント自体が消えて
+    // isZoomedがfalseに更新されないままになるためここでリセットしておく
+    if (media?.[index]?.type !== "image") setIsZoomed(false)
+    setSelectedMedia(index)
+  }
   const navigateMedia = (direction: 1 | -1) => {
     if (!media || media.length <= 1) return
     const nextIndex = (selectedMediaRef.current + direction + media.length) % media.length
-    // 次のメディアが画像でない場合、Zoomコンポーネント自体が消えて
-    // isZoomedがfalseに更新されないままになるためここでリセットしておく
-    if (media[nextIndex].type !== "image") setIsZoomed(false)
-    setSelectedMedia(nextIndex)
+    selectMedia(nextIndex)
   }
 
   useEffect(() => {
@@ -259,7 +262,7 @@ export function ProjectModal() {
                 {project.media!.map((m, i) => (
                   <button
                     key={m.src}
-                    onClick={() => setSelectedMedia(i)}
+                    onClick={() => selectMedia(i)}
                     className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
                       i === selectedMedia ? "border-sky-medium" : "border-border"
                     }`}
