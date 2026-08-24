@@ -146,3 +146,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* react-medium-image-zoom: デフォルトは白背景でページと同化するため、
+   サイトのnavyカラーで画像を浮き立たせる */
+[data-rmiz-modal-overlay="visible"] {
+  background-color: oklch(0.30 0.06 250 / 0.92) !important;
+}

@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react"
+import Zoom from "react-medium-image-zoom"
+import "react-medium-image-zoom/dist/styles.css"
 
 export interface Project {
   title: string
@@ -32,6 +34,9 @@ function isProject(detail: unknown): detail is Project {
 export function ProjectModal() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedMedia, setSelectedMedia] = useState(0)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const isZoomedRef = useRef(false)
+  isZoomedRef.current = isZoomed
   const dialogRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
 
@@ -63,6 +68,7 @@ export function ProjectModal() {
     dialog?.focus()
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isZoomedRef.current) return
       if (e.key === "Escape") {
         setProject(null)
         return
@@ -89,9 +95,11 @@ export function ProjectModal() {
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown)
+    // captureフェーズで登録することで、react-medium-image-zoomのEscハンドラ（bubbleフェーズ）より
+    // 先にisZoomedを判定できるようにする
+    window.addEventListener("keydown", handleKeyDown, true)
     return () => {
-      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keydown", handleKeyDown, true)
       triggerRef.current?.focus()
     }
   }, [project])
@@ -245,11 +253,13 @@ export function ProjectModal() {
               </div>
               <div className="rounded-xl overflow-hidden border border-border">
                 {project.media![selectedMedia].type === "image" ? (
-                  <img
-                    src={project.media![selectedMedia].src}
-                    alt={project.media![selectedMedia].alt || project.title}
-                    className="w-full h-auto object-cover"
-                  />
+                  <Zoom zoomMargin={24} onZoomChange={setIsZoomed}>
+                    <img
+                      src={project.media![selectedMedia].src}
+                      alt={project.media![selectedMedia].alt || project.title}
+                      className="w-full h-auto object-cover"
+                    />
+                  </Zoom>
                 ) : (
                   <video src={project.media![selectedMedia].src} controls className="w-full h-auto">
                     お使いのブラウザは動画再生に対応していません。
