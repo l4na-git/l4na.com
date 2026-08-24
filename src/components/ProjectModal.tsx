@@ -60,6 +60,7 @@ export function ProjectModal() {
       const active = document.activeElement
       triggerRef.current = active instanceof HTMLElement ? active : null
       setSelectedMedia(0)
+      setIsZoomed(false)
       setProject(e.detail)
     }
     window.addEventListener("open-project-modal", handler)
