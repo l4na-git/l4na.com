@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react"
+import Zoom from "react-medium-image-zoom"
+import "react-medium-image-zoom/dist/styles.css"
 
 export interface Project {
   title: string
@@ -32,8 +34,27 @@ function isProject(detail: unknown): detail is Project {
 export function ProjectModal() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedMedia, setSelectedMedia] = useState(0)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const isZoomedRef = useRef(false)
+  isZoomedRef.current = isZoomed
   const dialogRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
+
+  const selectedMediaRef = useRef(0)
+  selectedMediaRef.current = selectedMedia
+
+  const media = project?.media
+  const selectMedia = (index: number) => {
+    // 切り替え先が画像でない場合、Zoomコンポーネント自体が消えて
+    // isZoomedがfalseに更新されないままになるためここでリセットしておく
+    if (media?.[index]?.type !== "image") setIsZoomed(false)
+    setSelectedMedia(index)
+  }
+  const navigateMedia = (direction: 1 | -1) => {
+    if (!media || media.length <= 1) return
+    const nextIndex = (selectedMediaRef.current + direction + media.length) % media.length
+    selectMedia(nextIndex)
+  }
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -42,6 +63,7 @@ export function ProjectModal() {
       const active = document.activeElement
       triggerRef.current = active instanceof HTMLElement ? active : null
       setSelectedMedia(0)
+      setIsZoomed(false)
       setProject(e.detail)
     }
     window.addEventListener("open-project-modal", handler)
@@ -63,6 +85,15 @@ export function ProjectModal() {
     dialog?.focus()
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        navigateMedia(1)
+        return
+      }
+      if (e.key === "ArrowLeft") {
+        navigateMedia(-1)
+        return
+      }
+      if (isZoomedRef.current) return
       if (e.key === "Escape") {
         setProject(null)
         return
@@ -89,9 +120,11 @@ export function ProjectModal() {
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown)
+    // captureフェーズで登録することで、react-medium-image-zoomのEscハンドラ（bubbleフェーズ）より
+    // 先にisZoomedを判定できるようにする
+    window.addEventListener("keydown", handleKeyDown, true)
     return () => {
-      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keydown", handleKeyDown, true)
       triggerRef.current?.focus()
     }
   }, [project])
@@ -229,7 +262,7 @@ export function ProjectModal() {
                 {project.media!.map((m, i) => (
                   <button
                     key={m.src}
-                    onClick={() => setSelectedMedia(i)}
+                    onClick={() => selectMedia(i)}
                     className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
                       i === selectedMedia ? "border-sky-medium" : "border-border"
                     }`}
@@ -245,11 +278,49 @@ export function ProjectModal() {
               </div>
               <div className="rounded-xl overflow-hidden border border-border">
                 {project.media![selectedMedia].type === "image" ? (
-                  <img
-                    src={project.media![selectedMedia].src}
-                    alt={project.media![selectedMedia].alt || project.title}
-                    className="w-full h-auto object-cover"
-                  />
+                  <Zoom
+                    zoomMargin={24}
+                    onZoomChange={setIsZoomed}
+                    ZoomContent={
+                      project.media!.length > 1
+                        ? ({ img, buttonUnzoom }) => (
+                            <>
+                              {img}
+                              {buttonUnzoom}
+                              <button
+                                type="button"
+                                onClick={() => navigateMedia(-1)}
+                                aria-label="前の画像"
+                                className="absolute top-1/2 left-5 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => navigateMedia(1)}
+                                aria-label="次の画像"
+                                className="absolute top-1/2 right-5 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                              </button>
+                              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 text-white text-sm">
+                                {selectedMedia + 1} / {project.media!.length}
+                              </div>
+                            </>
+                          )
+                        : undefined
+                    }
+                  >
+                    <img
+                      src={project.media![selectedMedia].src}
+                      alt={project.media![selectedMedia].alt || project.title}
+                      className="w-full h-auto object-cover"
+                    />
+                  </Zoom>
                 ) : (
                   <video src={project.media![selectedMedia].src} controls className="w-full h-auto">
                     お使いのブラウザは動画再生に対応していません。
