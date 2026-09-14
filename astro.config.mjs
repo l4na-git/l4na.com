@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
 export default defineConfig({
+  site: 'https://www.l4na.com',
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
