@@ -1,341 +1,40 @@
 ---
+import { getCollection } from 'astro:content'
+import { getImage } from 'astro:assets'
 import { ProjectModal } from './ProjectModal'
 
-const projects = [
-  {
-    title: "LiveFx",
-    description:
-      "ライブやイベント向けの双方向インタラクティブシステム。スマートフォンを使って演出に参加することができる。",
-    tech: ["React", "TypeScript", "Docker", "WebSocket", "AWS"],
-    team: "チーム開発（10人以上）",
-    role: "インフラ、同期改善 etc...",
-    highlight: "同期設計、IaCを使用したインフラ構築",
-    details: `3000人規模の入学式で実際に使用したシステムです。
-    プロジェクト開始から2年目に途中参加し、インフラと同期改善を担当しました。
+const entries = await getCollection('projects')
+entries.sort((a, b) => a.data.order - b.data.order)
 
-主な機能：
-- 観客のスマホ画面を一斉に制御して光の演出を実現
-- WebSocketによるリアルタイム双方向通信
-- 数千人規模の同時接続に対応した設計
+const projects = await Promise.all(
+  entries.map(async (entry) => {
+    const media = entry.data.media
+      ? await Promise.all(
+          entry.data.media.map(async (m) => {
+            // gifはastro:assetsの画像最適化を通すとアニメーションが失われるため、そのまま配信する
+            if (m.image.format === 'gif') {
+              return { src: m.image.src, alt: m.alt }
+            }
+            const optimized = await getImage({ src: m.image })
+            return { src: optimized.src, alt: m.alt }
+          })
+        )
+      : undefined
 
-開発期間中に得た学び：
-- 途中参加プロジェクトでの素早いキャッチアップ（コード・文化・関係性）
-- 10人以上のチームでの会議設計・進行
-- 大規模リアルタイム通信の設計
-
-今後は外部のイベントでも使用してもらうことを目指しています。`,
-    github: "https://github.com/SIWLiveFX/livefx-public",
-    demo: "https://livefx.siw.ac.jp",
-    media: [
-      { type: "image", src: "/projects/livefx-1.gif", alt: "LiveFx 演出" },
-    ],
-  },
-  {
-    title: "LiveFx LP",
-    description:
-      "LiveFxを紹介するLP。3Dモデルをタップして回転させることができる。",
-    tech: ["Figma", "TypeScript", "Astro", "OpenSCAD", "Blender"],
-    team: "チーム開発（LiveFxプロジェクト内）",
-    role: "デザイン〜実装",
-    highlight: "チームメンバーからFBを得ながらの開発",
-    details: `LiveFxを紹介するLPをAIを活用しながら制作しました。
-    LiveFxプロジェクトのスケジュールの関係で、デザイン〜実装までのほとんどを担当することになり、属人化してしまうことを課題に感じていました。
-    ですので、Figmaファイルを共有しながら進めるなど、チームメンバーとの連携を意識して進めました。 
-    現在も改善を続けています。
-
-工夫した点：
-- 3DモデルはBlenderでのAI生成が難しかったためOpenSCADでスクリプト生成し、Blenderでレンダリング
-- デザインはFigmaで作成し、チームメンバーにレビューをもらいながら改善
-- 実際のサイトを参考にしたりUIキットを活用したりして効率的に制作
-- 実装はMCP連携で効率化（コーディングにAIを積極活用）
-
-開発期間中に得た学び：
-- OpenSCAD × Blenderを組み合わせた3Dアセット制作フロー
-- Figmaを使ったデザインレビューの進め方
-- SEO / LLMO
-- Googleアナリティクス`,
-    github: "https://github.com/SIWLiveFX/LiveFx-site",
-    demo: "https://livefx.siw.ac.jp",
-  },
-  {
-    title: "シフト管理アプリ",
-    description: "シフト提出と管理を効率化するアプリ",
-    tech: ["GoogleAppsScript", "Spreadsheet", "JavaScript", "clasp"],
-    team: "チーム開発（9人）",
-    role: "機能実装、設計、ドキュメント整備",
-    highlight: "現場で使いやすい入力体験を重視",
-    details: `保育園スタッフのシフト提出・管理を効率化するWebアプリケーションです。
-    紙で管理されていた状態から、業務効率を改善するためにヒアリングの段階からシステムの開発を行いました。
-
-主な機能：
-- カレンダー形式での直感的なシフト入力
-- 自動集計とスプレッドシート連携
-
-工夫した点：
-- スマートフォンでの操作を最優先に考えたUI設計
-- 入力ミスを防ぐバリデーションとフィードバック
-- アクセスやエラー時のログ集計機能
-- clasp を活用した開発体験向上
-- 1期生として、後続メンバーが参加しやすい開発フロー・ドキュメントの整備
-
-現在：
-- 1回目の納品を終え、実際に保育園で運用中
-- 現場からの改善要望をヒアリングし、継続的に改善していく予定
-- フレームワーク未採用で改修しづらい状態だったため、TypeScript + Vue.js + Viteの構成にリプレース中`,
-    github: "https://github.com/SIW-ShiftSystem/shift-app-public",
-    media: [
-      { type: "image", src: "/projects/shift-app-1.png", alt: "シフト管理アプリ ログイン画面" },
-      { type: "image", src: "/projects/shift-app-2.png", alt: "シフト管理アプリ シフト希望入力画面" },
-      { type: "image", src: "/projects/shift-app-3.png", alt: "シフト管理アプリ 希望一覧" },
-      { type: "image", src: "/projects/shift-app-4.png", alt: "シフト管理アプリ メンテナンスメニュー" },
-      { type: "image", src: "/projects/shift-app-5.png", alt: "シフト管理アプリ ログの削除確認" },
-      { type: "image", src: "/projects/shift-app-6.png", alt: "シフト管理アプリ 一覧の削除確認" },
-    ],
-  },
-  {
-    title: "ITニュース配信システム",
-    description: "ITニュースを収集・配信する自動化システム",
-    tech: ["AWS Lambda", "Amazon EventBridge", "Discord Bot", "RSS"],
-    team: "自主制作",
-    highlight: "定期実行、自動化",
-    details: `2年次に、APIを学んだことをきっかけに「実際に動くものを作りたい」と思い制作しました。
-実際はAPIで取得できるニュースがあまり見つからなかったため、RSSを採用しました。
-当初は自宅サーバで運用していましたが不安定だったため、AWS Lambdaへ移行しました。
-
-アーキテクチャ：
-- AWS LambdaとAmazon EventBridgeによる定期的なニュース収集
-- Discord Botによる配信
-
-工夫した点・学び：
-- サーバーレス化による安定稼働・低コスト運用
-- Markdownを活用し、読みやすい配信
-- AWS Lambdaは授業、EventBridgeは自宅サーバ時代のcron知識が活きて詰まらず実装できた`,
-    github: "https://github.com/l4na-git/discord-news-bot",
-    media: [
-      { type: "image", src: "/projects/news-bot-1.png", alt: "ITニュース Discord配信" },
-    ],
-  },
-  {
-    title: "TeachArm",
-    description: "「AIが動いて教える」 をテーマにした学習支援システム",
-    tech: ["SO-101", "DeepSeek", "Python", "ArUco", "Tailscale", "React", "MediaPipe Hands", "VOICEVOX", "whisper"],
-    team: "授業課題",
-    highlight: "企画から実装まで一人で、AIと協力しながら開発",
-    details: `紙のプリントを"指差し"すると、その場所に合わせて声と動きで返します。
-ロボティクスの授業で、ニーズ調査・企画から実装まで一人でやりきったプロジェクトです。
-「こんなものを作る」というコンセプトを動画生成AIで可視化してから開発に入りました。
-
-開発期間：
-2025年11月〜2026年2月（授業内＋放課後の自主開発）
-
-アーキテクチャ：
-- MediaPipe Handsによる手の指差し検出
-- ArUcoマーカーでプリント上の位置を特定
-- DeepSeekが内容を解析し説明文を生成
-- VOICEVOXで音声合成、whisperで音声認識
-- SO-101ロボットアームが動きで応答
-- TailscaleでPC間のネットワーク接続
-
-工夫した点・学び：
-- AIの提案をきっかけにIK（逆運動学）を調べ、アームの動き制御に応用
-- ニーズ調査→コンセプト動画生成→実装という企画フローを経験
-- 初めてロボットアームに触れ、ソフト×ハードの統合の面白さを体験`,
-    github: "https://github.com/l4na-git/TechArm",
-    demo: "https://teacharm.figma.site",
-    media: [
-      { type: "image", src: "/projects/teacharm-1.png", alt: "TeachArm 企画" },
-      { type: "image", src: "/projects/teacharm-2.png", alt: "TeachArm 企画-1" },
-      { type: "image", src: "/projects/teacharm-3.png", alt: "TeachArm 企画-2" },
-      { type: "image", src: "/projects/teacharm-4.png", alt: "TeachArm 企画-3" },
-      { type: "image", src: "/projects/teacharm-5.png", alt: "TeachArm 最終発表" },
-      { type: "image", src: "/projects/teacharm-6.png", alt: "TeachArm 最終発表-1" },
-      { type: "image", src: "/projects/teacharm-7.png", alt: "TeachArm 最終発表-2" },
-      { type: "image", src: "/projects/teacharm-8.png", alt: "TeachArm 最終発表-3" },
-      { type: "image", src: "/projects/teacharm-9.png", alt: "TeachArm 最終発表-4" },
-      { type: "image", src: "/projects/teacharm-10.png", alt: "TeachArm 最終発表-5" },
-      { type: "image", src: "/projects/teacharm-11.png", alt: "TeachArm 最終発表-6" },
-      { type: "image", src: "/projects/teacharm-12.png", alt: "TeachArm 最終発表-7" },
-      { type: "image", src: "/projects/teacharm-13.png", alt: "TeachArm 最終発表-8" },
-      { type: "image", src: "/projects/teacharm-14.png", alt: "TeachArm 最終発表-9" },
-    ],
-  },
-  {
-    title: "Ku-Ki",
-    description: "発表中に観客がリアクションやメッセージをリアルタイムに送れる、場の空気を可視化するWebアプリ",
-    tech: ["JavaScript", "CSS", "HTML", "Supabase"],
-    team: "チーム開発（4人）",
-    role: "案出し、DB設計、実装",
-    highlight: "DB設計・クエリ実装を主導、提案の図解でチームと合意形成",
-    details: `技育CAMPハッカソン vol.16 にて「NOT KETCHUP」チームで作成しました。
-
-開発期間：
-2025年12月（10日間）
-
-主な機能：
-- 観客がコントローラー画面から「疑問」「拍手」「驚く」「同意」などのリアクションを送信
-- 「偉業」「感謝」「応援」「精進」などのメッセージ送信機能
-- ステージ画面で発表者がリアクションをリアルタイムに確認
-
-工夫した点・学び：
-- DB設計・クエリ実装を主導し、チームの技術基盤を担当
-- オンライン環境で意思疎通を図ることが難しかったため、技術的な提案を図解してチームに伝える工夫をした
-- チーム内のGitフローの認識ずれを経験し、運用ルールの重要性を学んだ`,
-    github: "https://github.com/NOT-KETCHUP/Ku-Ki_app",
-    demo: "https://l4na-git.github.io/Ku-Ki_app/",
-    media: [
-      { type: "image", src: "/projects/ku-ki-1.png", alt: "Ku-Ki 参加画面" },
-      { type: "image", src: "/projects/ku-ki-2.png", alt: "Ku-Ki コントロール画面" },
-    ],
-  },
-  {
-    title: "Hit and Blow CLI版",
-    description: "数当てゲーム「Hit and Blow」のCLI実装",
-    tech: ["Python"],
-    team: "授業課題",
-    highlight: "クラス設計・非同期処理に挑戦",
-    details: `1年次の授業課題として制作。オブジェクト指向を学ぶ中でclassを積極的に使い、非同期処理にも独学で挑戦しました。
-採点時にPythonバージョンの差異で動作せず悔しい経験をしましたが、この作品への取り組みが今後の学習への自信につながりました。
-
-開発期間：
-2024年12月〜2025年1月（授業内＋放課後や長期休暇中の自主開発）
-
-工夫した点・学び：
-- 授業で学んだクラス設計を実践に活かし、オブジェクト指向を体得
-- 非同期処理を独学で調べて実装に挑戦
-- バージョン差異による環境問題を経験し、環境管理の重要性を学んだ`,
-    github: "https://github.com/l4na-git/HIT_and_BLOW_public",
-    media: [
-      { type: "image", src: "/projects/hit-and-blow-cli-1.png", alt: "Hit and Blow メニュー" },
-      { type: "image", src: "/projects/hit-and-blow-cli-2.png", alt: "Hit and Blow 遊び方" },
-      { type: "image", src: "/projects/hit-and-blow-cli-3.png", alt: "Hit and Blow 音量設定" },
-      { type: "image", src: "/projects/hit-and-blow-cli-4.png", alt: "Hit and Blow ユーザ管理" },
-      { type: "image", src: "/projects/hit-and-blow-cli-5.png", alt: "Hit and Blow ログ" },
-      { type: "image", src: "/projects/hit-and-blow-cli-6.png", alt: "Hit and Blow プレイ(成功)" },
-      { type: "image", src: "/projects/hit-and-blow-cli-7.png", alt: "Hit and Blow プレイ(失敗)" },
-      { type: "image", src: "/projects/hit-and-blow-cli-8.png", alt: "Hit and Blow 終了" },
-    ],
-  },
-  {
-    title: "Hit and Blow web版",
-    description: "Hit and Blow CLI版をWeb化した自主制作版",
-    tech: ["Python", "Streamlit"],
-    team: "自主制作",
-    highlight: "複数のフレームワークを試して技術選定を経験",
-    details: `授業課題のCLI版を完成させたくて、提出後も自主的にWeb版として作り直しました。
-pygame・Fletなど複数のフレームワークを試した末にStreamlitを採用しました。
-
-工夫した点・学び：
-- 実際に複数のフレームワークを試して、自分の書きやすさで技術選定
-- 「提出が終わっても完成させたい」という気持ちで自主開発を継続`,
-    github: "https://github.com/l4na-git/hit-and-blow-web",
-    demo: "https://hit-and-blow-tagra.streamlit.app",
-    media: [
-      { type: "image", src: "/projects/hit-and-blow-web-1.png", alt: "Hit and Blow プレイ画面" },
-    ],
-  },
-  {
-    title: "SpaceParallax",
-    description: "ユーザが見ている角度から宇宙を覗けるWebアプリ",
-    tech: ["React", "TypeScript", "Three.js", "Vite", "Zustand", "MediaPipe"],
-    team: "チーム開発（2人）",
-    role: "すべて",
-    highlight: "3時間のハッカソンでAI活用を最大化",
-    details: `AIハッカソン2026にて作成しました。
-
-開発期間：
-2026年3月（3時間）
-
-主な機能：
-- Three.js / React Three Fiber による太陽系の3Dレンダリング
-- カメラパララックスで、視点の動きに合わせて宇宙空間が動く
-- UIから天体を軌道上に追加・配置
-- MediaPipeによる顔向き検出でカメラオフセットを制御（拡張機能）
-- ジェスチャー入力で天体を軌道に追加（拡張機能）
-
-工夫した点・学び：
-- AIにPR作成を任せて開発速度を上げた
-- UIをStitchで素早く生成し、実装時間を短縮
-- 上位勢がGemini Canvasを活用しているのを見て、「必ずコードに落とす必要はない」という発想を学んだ`,
-    github: "https://github.com/l4na-git/SpaceParallax",
-    demo: "https://space-parallax-nu.vercel.app",
-    media: [
-      { type: "image", src: "/projects/space-parallax-1.png", alt: "SpaceParallax プレイ画面" },
-    ],
-  },
-  {
-    title: "FREE WAND",
-    description:
-      "杖(スマホ)を振って空中に魔法陣を描く体験型展示を制作し、東京ゲームショウ2026のアカデミーコーナーにて出展した。",
-    tech: ["Swift", "ARKit", "Core Motion", "Python", "ModernGL", "OpenCV", "GLSL"],
-    team: "自主制作",
-    highlight: "杖(スマホ)は動きの送信だけ、術式の判定と演出をPC側に任せて役割を分離した",
-    details: `杖(スマホ)を手に取り空中に術式（魔法陣）を描くと、目の前の鏡に映る世界へ火・水・風の魔法が放たれるという体験型展示。
-杖側はIMU（姿勢・加速度）を送るだけに留め、鏡側のカメラが杖先を画面上で追跡した軌跡から9つの術式のいずれかを判定し、演出を返す構成にした。
-杖に映像処理・形状認識を持たせず役割を分離することで、手元の操作を軽く保っている。
-
-TGS当日の学び：
-当日、無線通信がうまく確立できず、体験の提供がスムーズに進まないという課題が発生した。
-杖とPCの通信が安定しなかったため、初日は出展を見送らざるを得ず、実際に来場者へ体験を提供できたのは2日目の午後からだった。
-
-その後の取り組み：
-実装だけでなく、必要なテストを判断したり対応したりできるようになるために、無線への理解を深めたいと考えている。
-現在は、第三級陸上特殊無線技士という資格取得に向けて学習をしている。`,
-    demo: "https://free-wand.l4na.com",
-    media: [
-      { type: "image", src: "/projects/free-wand-1.jpeg", alt: "FREE WAND 展示風景と術式選択画面" },
-      { type: "image", src: "/projects/free-wand-2.jpeg", alt: "FREE WAND 杖のプロップ" },
-    ],
-  },
-  {
-    title: "l4na.com",
-    description: "このポートフォリオサイト",
-    tech: ["Astro", "React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
-    team: "自主制作",
-    highlight: "AIを活用しつつ、構成や品質面の判断は自分で行う",
-    details: `このポートフォリオサイト自体の制作です。
-デザインはv0で作成し、Astro + Reactで実装しました。
-
-主な取り組み：
-- v0のNext.jsベースのデザインをAstroに移植
-- 静的コンポーネント（.astro）とインタラクティブコンポーネント（.tsx）を分離する構成に再設計
-- Cloudflare Pagesでホスティング（PRごとのプレビューURLを活用）
-
-工夫した点・学び：
-- AIに実装を任せる際も一貫した基準になるよう、コンポーネント分割ルールを明文化
-- 実装のほとんどをAIと協働
-- 設計方針や品質面の判断は自分で行った`,
-    github: "https://github.com/l4na-git/l4na.com",
-    demo: "https://www.l4na.com",
-  },
-  {
-    title: "RinTune",
-    description: "時間を自分の手に取り戻すことをテーマにした、生活リズムを整えるモバイルアプリのUIデザイン",
-    tech: ["Figma"],
-    team: "授業課題",
-    highlight: "ペルソナ分析と狩野モデルによる機能優先度整理を経て、UIのトーン・配色までを考える",
-    details: `2年次の授業課題として制作。「時間は誰かに決められるものではなく、自分でコントロールするもの」というコンセプトのもと、生活リズムを整えるモバイルアプリをFigmaでデザインしました。
-
-工夫した点・学び：
-- コンセプトをUIの雰囲気やトーンに落とし込むこと
-- 授業で学んだFigmaのコンポーネント・バリアントを活用し保守しやすいデザインファイルを構築
-- 授業課題としてコンセプト設計からプロトタイピングまで一人で担当`,
-    demo: "https://www.figma.com/proto/s69luAQg0ITYfXRCbqk4tk/RinTune?node-id=6690-5244&p=f&viewport=285%2C-1061%2C0.46&t=5gW8E79KOVmVTLMk-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=6671%3A2258&show-proto-sidebar=1&page-id=6003%3A418",
-    media: [
-      { type: "image", src: "/projects/rintune-1.png", alt: "RinTune 表紙" },
-      { type: "image", src: "/projects/rintune-2.png", alt: "RinTune Introduction" },
-      { type: "image", src: "/projects/rintune-3.png", alt: "RinTune ペルソナ01" },
-      { type: "image", src: "/projects/rintune-4.png", alt: "RinTune ペルソナ02" },
-      { type: "image", src: "/projects/rintune-5.png", alt: "RinTune ブランドパーソナリティ" },
-      { type: "image", src: "/projects/rintune-6.png", alt: "RinTune ブランドポジション" },
-      { type: "image", src: "/projects/rintune-7.png", alt: "RinTune 狩野の品質モデル" },
-      { type: "image", src: "/projects/rintune-8.png", alt: "RinTune サイトマップ" },
-      { type: "image", src: "/projects/rintune-9.png", alt: "RinTune 要素の洗い出し" },
-      { type: "image", src: "/projects/rintune-10.png", alt: "RinTune キーワード" },
-      { type: "image", src: "/projects/rintune-11.png", alt: "RinTune カラーマップ" },
-      { type: "image", src: "/projects/rintune-12.png", alt: "RinTune 配色" },
-    ],
-  },
-]
+    return {
+      title: entry.data.title,
+      description: entry.data.description,
+      tech: entry.data.tech,
+      team: entry.data.team,
+      role: entry.data.role,
+      highlight: entry.data.highlight,
+      details: entry.data.details,
+      github: entry.data.github,
+      demo: entry.data.demo,
+      media,
+    }
+  })
+)
 ---
 
 <section id="projects" class="py-20 px-4 md:px-8 lg:px-12">
