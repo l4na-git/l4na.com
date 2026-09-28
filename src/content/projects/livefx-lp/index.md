@@ -1,5 +1,6 @@
 ---
-order: 2
+startDate: 2026-03-01
+category: "チーム開発"
 title: "LiveFx LP"
 description: |
   LiveFxを紹介するLP。3Dモデルをタップして回転させることができる。

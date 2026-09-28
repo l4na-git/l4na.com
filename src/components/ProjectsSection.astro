@@ -4,7 +4,7 @@ import { getImage } from 'astro:assets'
 import { ProjectModal } from './ProjectModal'
 
 const entries = await getCollection('projects')
-entries.sort((a, b) => a.data.order - b.data.order)
+entries.sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime() || a.id.localeCompare(b.id))
 
 const projects = await Promise.all(
   entries.map(async (entry) => {

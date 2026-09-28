@@ -1,5 +1,6 @@
 ---
-order: 4
+startDate: 2025-02-01
+category: "個人開発"
 title: "ITニュース配信システム"
 description: "ITニュースを収集・配信する自動化システム"
 tech: ["AWS Lambda", "Amazon EventBridge", "Discord Bot", "RSS"]

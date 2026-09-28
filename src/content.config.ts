@@ -5,7 +5,8 @@ const projects = defineCollection({
   loader: glob({ pattern: '*/index.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
-      order: z.number(),
+      startDate: z.coerce.date(),
+      category: z.enum(['個人開発', 'チーム開発', '授業課題']),
       title: z.string(),
       description: z.string(),
       tech: z.array(z.string()),

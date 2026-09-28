@@ -1,5 +1,6 @@
 ---
-order: 8
+startDate: 2025-01-01
+category: "個人開発"
 title: "Hit and Blow web版"
 description: "Hit and Blow CLI版をWeb化した自主制作版"
 tech: ["Python", "Streamlit"]

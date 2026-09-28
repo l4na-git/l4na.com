@@ -1,5 +1,6 @@
 ---
-order: 6
+startDate: 2025-12-01
+category: "チーム開発"
 title: "Ku-Ki"
 description: "発表中に観客がリアクションやメッセージをリアルタイムに送れる、場の空気を可視化するWebアプリ"
 tech: ["JavaScript", "CSS", "HTML", "Supabase"]

@@ -1,5 +1,6 @@
 ---
-order: 1
+startDate: 2025-12-01
+category: "チーム開発"
 title: "LiveFx"
 description: |
   ライブやイベント向けの双方向インタラクティブシステム。スマートフォンを使って演出に参加することができる。

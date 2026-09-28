@@ -1,5 +1,6 @@
 ---
-order: 12
+startDate: 2025-11-01
+category: "授業課題"
 title: "RinTune"
 description: "時間を自分の手に取り戻すことをテーマにした、生活リズムを整えるモバイルアプリのUIデザイン"
 tech: ["Figma"]

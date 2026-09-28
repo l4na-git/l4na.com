@@ -1,5 +1,6 @@
 ---
-order: 11
+startDate: 2026-03-01
+category: "個人開発"
 title: "l4na.com"
 description: "このポートフォリオサイト"
 tech: ["Astro", "React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"]

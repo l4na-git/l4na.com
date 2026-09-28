@@ -1,5 +1,6 @@
 ---
-order: 9
+startDate: 2026-03-01
+category: "チーム開発"
 title: "SpaceParallax"
 description: "ユーザが見ている角度から宇宙を覗けるWebアプリ"
 tech: ["React", "TypeScript", "Three.js", "Vite", "Zustand", "MediaPipe"]

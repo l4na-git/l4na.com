@@ -1,5 +1,6 @@
 ---
-order: 7
+startDate: 2024-12-01
+category: "授業課題"
 title: "Hit and Blow CLI版"
 description: "数当てゲーム「Hit and Blow」のCLI実装"
 tech: ["Python"]
