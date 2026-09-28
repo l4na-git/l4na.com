@@ -11,9 +11,8 @@ export interface Project {
   demo?: string
   details?: string
   media?: {
-    type: "image" | "video"
     src: string
-    alt?: string
+    alt: string
   }[]
 }
 
@@ -233,28 +232,18 @@ export function ProjectModal() {
                     className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
                       i === selectedMedia ? "border-sky-medium" : "border-border"
                     }`}
-                    aria-label={`${m.alt || project.title} のサムネイル ${i + 1}`}
+                    aria-label={`${m.alt} のサムネイル ${i + 1}`}
                   >
-                    {m.type === "image" ? (
-                      <img src={m.src} alt={m.alt || project.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <video src={m.src} className="w-full h-full object-cover" />
-                    )}
+                    <img src={m.src} alt={m.alt} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
               <div className="rounded-xl overflow-hidden border border-border">
-                {project.media![selectedMedia].type === "image" ? (
-                  <img
-                    src={project.media![selectedMedia].src}
-                    alt={project.media![selectedMedia].alt || project.title}
-                    className="w-full h-auto object-cover"
-                  />
-                ) : (
-                  <video src={project.media![selectedMedia].src} controls className="w-full h-auto">
-                    お使いのブラウザは動画再生に対応していません。
-                  </video>
-                )}
+                <img
+                  src={project.media![selectedMedia].src}
+                  alt={project.media![selectedMedia].alt}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
           )}
