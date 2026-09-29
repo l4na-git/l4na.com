@@ -7,11 +7,15 @@ const projects = defineCollection({
     z.object({
       // 日単位までは分からないプロジェクトが多いため、日は常に1日固定。実際の精度は月単位で、並べ替え専用（日付として画面表示しない）
       startDate: z.coerce.date(),
-      category: z.enum(['個人開発', 'チーム開発', '授業課題']),
       title: z.string(),
       description: z.string(),
       tech: z.array(z.string()),
-      team: z.string(),
+      team: z.object({
+        format: z.enum(['個人開発', 'チーム開発']),
+        size: z.union([z.number(), z.string()]).optional(), // チーム開発の場合の人数（"10人以上"のような曖昧な表現は文字列で）
+        context: z.enum(['自主制作', '授業課題', 'ハッカソン', 'プロジェクト']),
+        projectName: z.string().optional(), // context: プロジェクトの場合の名称（例: "LiveFx"）
+      }),
       role: z.string().optional(),
       highlight: z.string(),
       details: z.string().optional(),

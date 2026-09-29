@@ -1,11 +1,12 @@
 ---
 startDate: 2025-11-01
-category: "授業課題"
 title: "TeachArm"
 description: |
   「AIが動いて教える」 をテーマにした学習支援システム
 tech: ["SO-101", "DeepSeek", "Python", "ArUco", "Tailscale", "React", "MediaPipe Hands", "VOICEVOX", "whisper"]
-team: "授業課題"
+team:
+  format: "個人開発"
+  context: "授業課題"
 highlight: "企画から実装まで一人で、AIと協力しながら開発"
 details: |
   紙のプリントを"指差し"すると、その場所に合わせて声と動きで返します。

@@ -1,10 +1,11 @@
 ---
 startDate: 2024-12-01
-category: "授業課題"
 title: "Hit and Blow CLI版"
 description: "数当てゲーム「Hit and Blow」のCLI実装"
 tech: ["Python"]
-team: "授業課題"
+team:
+  format: "個人開発"
+  context: "授業課題"
 highlight: "クラス設計・非同期処理に挑戦"
 details: |
   1年次の授業課題として制作。オブジェクト指向を学ぶ中でclassを積極的に使い、非同期処理にも独学で挑戦しました。

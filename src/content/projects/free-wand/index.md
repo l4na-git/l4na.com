@@ -1,11 +1,12 @@
 ---
 startDate: 2026-07-01
-category: "個人開発"
 title: "FREE WAND"
 description: |
   杖(スマホ)を振って空中に魔法陣を描く体験型展示を制作し、東京ゲームショウ2026のアカデミーコーナーにて出展した。
 tech: ["Swift", "ARKit", "Core Motion", "Python", "ModernGL", "OpenCV", "GLSL"]
-team: "自主制作"
+team:
+  format: "個人開発"
+  context: "自主制作"
 highlight: "杖(スマホ)は動きの送信だけ、術式の判定と演出をPC側に任せて役割を分離した"
 details: |
   杖(スマホ)を手に取り空中に術式（魔法陣）を描くと、目の前の鏡に映る世界へ火・水・風の魔法が放たれるという体験型展示。

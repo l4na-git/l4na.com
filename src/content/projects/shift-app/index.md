@@ -1,10 +1,13 @@
 ---
 startDate: 2025-08-01
-category: "チーム開発"
 title: "シフト管理アプリ"
 description: "シフト提出と管理を効率化するアプリ"
 tech: ["GoogleAppsScript", "Spreadsheet", "JavaScript", "clasp"]
-team: "チーム開発（9人）"
+team:
+  format: "チーム開発"
+  size: 9
+  context: "プロジェクト"
+  projectName: "保育園"
 role: "機能実装、設計、ドキュメント整備"
 highlight: "現場で使いやすい入力体験を重視"
 details: |

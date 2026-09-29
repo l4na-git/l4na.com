@@ -1,10 +1,11 @@
 ---
 startDate: 2025-01-01
-category: "個人開発"
 title: "Hit and Blow web版"
 description: "Hit and Blow CLI版をWeb化した自主制作版"
 tech: ["Python", "Streamlit"]
-team: "自主制作"
+team:
+  format: "個人開発"
+  context: "自主制作"
 highlight: "複数のフレームワークを試して技術選定を経験"
 details: |
   授業課題のCLI版を完成させたくて、提出後も自主的にWeb版として作り直しました。

@@ -1,10 +1,12 @@
 ---
 startDate: 2026-03-01
-category: "チーム開発"
 title: "SpaceParallax"
 description: "ユーザが見ている角度から宇宙を覗けるWebアプリ"
 tech: ["React", "TypeScript", "Three.js", "Vite", "Zustand", "MediaPipe"]
-team: "チーム開発（2人）"
+team:
+  format: "チーム開発"
+  size: 2
+  context: "ハッカソン"
 role: "すべて"
 highlight: "3時間のハッカソンでAI活用を最大化"
 details: |

@@ -1,10 +1,11 @@
 ---
 startDate: 2025-02-01
-category: "個人開発"
 title: "ITニュース配信システム"
 description: "ITニュースを収集・配信する自動化システム"
 tech: ["AWS Lambda", "Amazon EventBridge", "Discord Bot", "RSS"]
-team: "自主制作"
+team:
+  format: "個人開発"
+  context: "自主制作"
 highlight: "定期実行、自動化"
 details: |
   2年次に、APIを学んだことをきっかけに「実際に動くものを作りたい」と思い制作しました。

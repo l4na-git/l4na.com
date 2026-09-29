@@ -1,10 +1,11 @@
 ---
 startDate: 2026-03-01
-category: "個人開発"
 title: "l4na.com"
 description: "このポートフォリオサイト"
 tech: ["Astro", "React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"]
-team: "自主制作"
+team:
+  format: "個人開発"
+  context: "自主制作"
 highlight: "AIを活用しつつ、構成や品質面の判断は自分で行う"
 details: |
   このポートフォリオサイト自体の制作です。
