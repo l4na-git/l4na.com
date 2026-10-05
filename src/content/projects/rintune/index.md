@@ -1,5 +1,6 @@
 ---
 startDate: 2025-11-01
+endDate: 2026-02-01
 title: "RinTune"
 description: "時間を自分の手に取り戻すことをテーマにした、生活リズムを整えるモバイルアプリのUIデザイン"
 tech: ["Figma"]

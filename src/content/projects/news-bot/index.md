@@ -1,5 +1,6 @@
 ---
 startDate: 2025-02-01
+endDate: 2025-03-01
 title: "ITニュース配信システム"
 description: "ITニュースを収集・配信する自動化システム"
 tech: ["AWS Lambda", "Amazon EventBridge", "Discord Bot", "RSS"]

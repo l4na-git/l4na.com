@@ -1,5 +1,6 @@
 ---
 startDate: 2025-08-01
+ongoing: true
 title: "シフト管理アプリ"
 description: "シフト提出と管理を効率化するアプリ"
 tech: ["GoogleAppsScript", "Spreadsheet", "JavaScript", "clasp"]

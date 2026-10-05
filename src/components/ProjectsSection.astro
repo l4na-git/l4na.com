@@ -17,8 +17,11 @@ function formatTeam(team: CollectionEntry<'projects'>['data']['team']): string {
 }
 
 const periodFormatter = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long' })
-function formatPeriod(startDate: Date): string {
-  return periodFormatter.format(startDate)
+function formatPeriod(startDate: Date, endDate?: Date, ongoing?: boolean): string {
+  const start = periodFormatter.format(startDate)
+  if (endDate) return `${start}〜${periodFormatter.format(endDate)}`
+  if (ongoing) return `${start}〜`
+  return start
 }
 
 const entries = await getCollection('projects')
@@ -43,7 +46,7 @@ const projects = await Promise.all(
       title: entry.data.title,
       description: entry.data.description,
       tech: entry.data.tech,
-      period: formatPeriod(entry.data.startDate),
+      period: formatPeriod(entry.data.startDate, entry.data.endDate, entry.data.ongoing),
       team: formatTeam(entry.data.team),
       role: entry.data.role,
       highlight: entry.data.highlight,

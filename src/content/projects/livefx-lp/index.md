@@ -1,5 +1,6 @@
 ---
 startDate: 2026-03-01
+ongoing: true
 title: "LiveFx LP"
 description: |
   LiveFxを紹介するLP。3Dモデルをタップして回転させることができる。

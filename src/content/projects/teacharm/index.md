@@ -1,5 +1,6 @@
 ---
 startDate: 2025-11-01
+endDate: 2026-02-01
 title: "TeachArm"
 description: |
   「AIが動いて教える」 をテーマにした学習支援システム

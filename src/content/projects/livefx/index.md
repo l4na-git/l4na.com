@@ -1,5 +1,6 @@
 ---
 startDate: 2025-12-01
+ongoing: true
 title: "LiveFx"
 description: |
   ライブやイベント向けの双方向インタラクティブシステム。スマートフォンを使って演出に参加することができる。

@@ -1,5 +1,6 @@
 ---
 startDate: 2026-07-01
+ongoing: true
 title: "FREE WAND"
 description: |
   杖(スマホ)を振って空中に魔法陣を描く体験型展示を制作し、東京ゲームショウ2026のアカデミーコーナーにて出展した。

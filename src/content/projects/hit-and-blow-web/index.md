@@ -1,5 +1,6 @@
 ---
 startDate: 2025-01-01
+endDate: 2025-02-01
 title: "Hit and Blow web版"
 description: "Hit and Blow CLI版をWeb化した自主制作版"
 tech: ["Python", "Streamlit"]

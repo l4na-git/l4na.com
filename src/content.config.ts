@@ -5,8 +5,10 @@ const projects = defineCollection({
   loader: glob({ pattern: '*/index.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
-      // 日単位までは分からないプロジェクトが多いため、日は常に1日固定。実際の精度は月単位で、並べ替え専用（日付として画面表示しない）
+      // 日単位までは分からないプロジェクトが多いため、日は常に1日固定。実際の精度は月単位（startDate/endDateとも）
       startDate: z.coerce.date(),
+      endDate: z.coerce.date().optional(), // 終了月。期間が確定している場合のみ設定
+      ongoing: z.boolean().optional(), // 継続中の場合true（endDateとは排他）。どちらも未設定なら単発（ハッカソン等）
       title: z.string(),
       description: z.string(),
       tech: z.array(z.string()),
@@ -46,6 +48,14 @@ const projects = defineCollection({
           })
         )
         .optional(),
+    }).superRefine((data, ctx) => {
+      if (data.endDate !== undefined && data.ongoing !== undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'endDate と ongoing は同時に設定できません',
+          path: ['ongoing'],
+        })
+      }
     }),
 })
 

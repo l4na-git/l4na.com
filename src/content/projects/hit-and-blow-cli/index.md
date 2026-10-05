@@ -1,5 +1,6 @@
 ---
 startDate: 2024-12-01
+endDate: 2025-01-01
 title: "Hit and Blow CLI版"
 description: "数当てゲーム「Hit and Blow」のCLI実装"
 tech: ["Python"]
