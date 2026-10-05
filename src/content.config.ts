@@ -10,12 +10,29 @@ const projects = defineCollection({
       title: z.string(),
       description: z.string(),
       tech: z.array(z.string()),
-      team: z.object({
-        format: z.enum(['個人開発', 'チーム開発']),
-        size: z.union([z.number(), z.string()]).optional(), // チーム開発の場合の人数（"10人以上"のような曖昧な表現は文字列で）
-        context: z.enum(['自主制作', '授業課題', 'ハッカソン', 'プロジェクト']),
-        projectName: z.string().optional(), // context: プロジェクトの場合の名称（例: "LiveFx"）
-      }),
+      team: z
+        .object({
+          format: z.enum(['個人開発', 'チーム開発']),
+          size: z.union([z.number(), z.string()]).optional(), // チーム開発の場合の人数（"10人以上"のような曖昧な表現は文字列で）
+          context: z.enum(['自主制作', '授業課題', 'ハッカソン', 'プロジェクト']),
+          projectName: z.string().optional(), // context: プロジェクトの場合の名称（例: "LiveFx"）
+        })
+        .superRefine((team, ctx) => {
+          if (team.format === '個人開発' && team.size !== undefined) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'format: 個人開発 の場合、size は設定できません',
+              path: ['size'],
+            })
+          }
+          if (team.context !== 'プロジェクト' && team.projectName !== undefined) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'projectName は context: プロジェクト の場合のみ設定できます',
+              path: ['projectName'],
+            })
+          }
+        }),
       role: z.string().optional(),
       highlight: z.string(),
       details: z.string().optional(),
