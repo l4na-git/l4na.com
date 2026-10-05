@@ -16,6 +16,11 @@ function formatTeam(team: CollectionEntry<'projects'>['data']['team']): string {
   return sizeLabel ? `${label}（${sizeLabel}）` : label
 }
 
+const periodFormatter = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long' })
+function formatPeriod(startDate: Date): string {
+  return periodFormatter.format(startDate)
+}
+
 const entries = await getCollection('projects')
 entries.sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime() || a.id.localeCompare(b.id))
 
@@ -38,6 +43,7 @@ const projects = await Promise.all(
       title: entry.data.title,
       description: entry.data.description,
       tech: entry.data.tech,
+      period: formatPeriod(entry.data.startDate),
       team: formatTeam(entry.data.team),
       role: entry.data.role,
       highlight: entry.data.highlight,
@@ -77,6 +83,10 @@ const projects = await Promise.all(
             </div>
 
             <div class="text-xs text-muted-foreground space-y-1">
+              <p>
+                <span class="font-medium text-foreground">時期：</span>
+                {project.period}
+              </p>
               <p>
                 <span class="font-medium text-foreground">形態：</span>
                 {project.team}

@@ -4,6 +4,7 @@ export interface Project {
   title: string
   description: string
   tech: string[]
+  period: string
   team: string
   role?: string
   highlight: string
@@ -203,6 +204,10 @@ export function ProjectModal() {
               </div>
             </div>
 
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-navy mb-2">時期</h3>
+              <p className="text-sm text-muted-foreground">{project.period}</p>
+            </div>
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-navy mb-2">形態</h3>
               <p className="text-sm text-muted-foreground">{project.team}</p>
