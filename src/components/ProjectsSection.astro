@@ -5,19 +5,15 @@ import { getImage } from 'astro:assets'
 import { ProjectModal } from './ProjectModal'
 
 function formatTeam(team: CollectionEntry<'projects'>['data']['team']): string {
+  // contextを主語にし、チーム開発の場合のみ人数を括弧で補足する（個人/チームの区別は人数の有無で暗黙的に伝える）
+  const label = team.context === 'プロジェクト' && team.projectName ? `${team.projectName}プロジェクト` : team.context
+
   if (team.format === '個人開発') {
-    if (team.context === 'プロジェクト' && team.projectName) {
-      return `${team.projectName}プロジェクト`
-    }
-    return team.context
+    return label
   }
 
   const sizeLabel = team.size === undefined ? undefined : typeof team.size === 'number' ? `${team.size}人` : team.size
-  const base = sizeLabel ? `チーム開発（${sizeLabel}）` : 'チーム開発'
-  if (team.context === 'プロジェクト' && team.projectName) {
-    return `${base}・${team.projectName}プロジェクト`
-  }
-  return base
+  return sizeLabel ? `${label}（${sizeLabel}）` : label
 }
 
 const entries = await getCollection('projects')
