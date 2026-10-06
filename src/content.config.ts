@@ -56,6 +56,13 @@ const projects = defineCollection({
           path: ['ongoing'],
         })
       }
+      if (data.endDate !== undefined && data.endDate.getTime() < data.startDate.getTime()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'endDate は startDate 以降である必要があります',
+          path: ['endDate'],
+        })
+      }
     }),
 })
 
