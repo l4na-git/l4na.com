@@ -1,10 +1,15 @@
 ---
-order: 1
+startDate: 2025-12-01
+ongoing: true
 title: "LiveFx"
 description: |
   ライブやイベント向けの双方向インタラクティブシステム。スマートフォンを使って演出に参加することができる。
 tech: ["React", "TypeScript", "Docker", "WebSocket", "AWS"]
-team: "チーム開発（10人以上）"
+team:
+  format: "チーム開発"
+  size: "10人以上"
+  context: "プロジェクト"
+  projectName: "LiveFx"
 role: "インフラ、同期改善 etc..."
 highlight: "同期設計、IaCを使用したインフラ構築"
 details: |

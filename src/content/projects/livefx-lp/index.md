@@ -1,10 +1,14 @@
 ---
-order: 2
+startDate: 2026-03-01
+ongoing: true
 title: "LiveFx LP"
 description: |
   LiveFxを紹介するLP。3Dモデルをタップして回転させることができる。
 tech: ["Figma", "TypeScript", "Astro", "OpenSCAD", "Blender"]
-team: "チーム開発（LiveFxプロジェクト内）"
+team:
+  format: "チーム開発"
+  context: "プロジェクト"
+  projectName: "LiveFx"
 role: "デザイン〜実装"
 highlight: "チームメンバーからFBを得ながらの開発"
 details: |

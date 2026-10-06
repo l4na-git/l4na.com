@@ -1,16 +1,18 @@
 ---
-order: 6
+startDate: 2025-12-01
 title: "Ku-Ki"
 description: "発表中に観客がリアクションやメッセージをリアルタイムに送れる、場の空気を可視化するWebアプリ"
 tech: ["JavaScript", "CSS", "HTML", "Supabase"]
-team: "チーム開発（4人）"
+team:
+  format: "チーム開発"
+  size: 4
+  context: "ハッカソン"
 role: "案出し、DB設計、実装"
 highlight: "DB設計・クエリ実装を主導、提案の図解でチームと合意形成"
 details: |
   技育CAMPハッカソン vol.16 にて「NOT KETCHUP」チームで作成しました。
 
-  開発期間：
-  2025年12月（10日間）
+  10日間のハッカソンにて開発しました。
 
   主な機能：
   - 観客がコントローラー画面から「疑問」「拍手」「驚く」「同意」などのリアクションを送信

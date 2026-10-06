@@ -1,10 +1,31 @@
 ---
 import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
 import { getImage } from 'astro:assets'
 import { ProjectModal } from './ProjectModal'
 
+function formatTeam(team: CollectionEntry<'projects'>['data']['team']): string {
+  // contextを主語にし、チーム開発の場合のみ人数を括弧で補足する（個人/チームの区別は人数の有無で暗黙的に伝える）
+  const label = team.context === 'プロジェクト' && team.projectName ? `${team.projectName}プロジェクト` : team.context
+
+  if (team.format === '個人開発') {
+    return label
+  }
+
+  const sizeLabel = team.size === undefined ? undefined : typeof team.size === 'number' ? `${team.size}人` : team.size
+  return sizeLabel ? `${label}（${sizeLabel}）` : label
+}
+
+const periodFormatter = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long' })
+function formatPeriod(startDate: Date, endDate?: Date, ongoing?: boolean): string {
+  const start = periodFormatter.format(startDate)
+  if (endDate) return `${start}〜${periodFormatter.format(endDate)}`
+  if (ongoing) return `${start}〜`
+  return start
+}
+
 const entries = await getCollection('projects')
-entries.sort((a, b) => a.data.order - b.data.order)
+entries.sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime() || a.id.localeCompare(b.id))
 
 const projects = await Promise.all(
   entries.map(async (entry) => {
@@ -25,7 +46,8 @@ const projects = await Promise.all(
       title: entry.data.title,
       description: entry.data.description,
       tech: entry.data.tech,
-      team: entry.data.team,
+      period: formatPeriod(entry.data.startDate, entry.data.endDate, entry.data.ongoing),
+      team: formatTeam(entry.data.team),
       role: entry.data.role,
       highlight: entry.data.highlight,
       details: entry.data.details,
@@ -64,6 +86,10 @@ const projects = await Promise.all(
             </div>
 
             <div class="text-xs text-muted-foreground space-y-1">
+              <p>
+                <span class="font-medium text-foreground">時期：</span>
+                {project.period}
+              </p>
               <p>
                 <span class="font-medium text-foreground">形態：</span>
                 {project.team}

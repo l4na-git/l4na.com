@@ -1,16 +1,16 @@
 ---
-order: 9
+startDate: 2026-03-01
 title: "SpaceParallax"
 description: "ユーザが見ている角度から宇宙を覗けるWebアプリ"
 tech: ["React", "TypeScript", "Three.js", "Vite", "Zustand", "MediaPipe"]
-team: "チーム開発（2人）"
+team:
+  format: "チーム開発"
+  size: 2
+  context: "ハッカソン"
 role: "すべて"
 highlight: "3時間のハッカソンでAI活用を最大化"
 details: |
   AIハッカソン2026にて作成しました。
-
-  開発期間：
-  2026年3月（3時間）
 
   主な機能：
   - Three.js / React Three Fiber による太陽系の3Dレンダリング

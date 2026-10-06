@@ -1,18 +1,20 @@
 ---
-order: 5
+startDate: 2025-11-01
+endDate: 2026-02-01
 title: "TeachArm"
 description: |
   「AIが動いて教える」 をテーマにした学習支援システム
 tech: ["SO-101", "DeepSeek", "Python", "ArUco", "Tailscale", "React", "MediaPipe Hands", "VOICEVOX", "whisper"]
-team: "授業課題"
+team:
+  format: "個人開発"
+  context: "授業課題"
 highlight: "企画から実装まで一人で、AIと協力しながら開発"
 details: |
   紙のプリントを"指差し"すると、その場所に合わせて声と動きで返します。
   ロボティクスの授業で、ニーズ調査・企画から実装まで一人でやりきったプロジェクトです。
   「こんなものを作る」というコンセプトを動画生成AIで可視化してから開発に入りました。
 
-  開発期間：
-  2025年11月〜2026年2月（授業内＋放課後の自主開発）
+  また授業内に加え、放課後も自主的に開発を進めました。
 
   アーキテクチャ：
   - MediaPipe Handsによる手の指差し検出
