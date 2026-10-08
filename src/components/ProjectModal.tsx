@@ -6,6 +6,8 @@ export interface Project {
   tech: string[]
   period: string
   team: string
+  format: string
+  context: string
   role?: string
   highlight: string
   github?: string
