@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 
 const terminalLines = [
-  { command: "> whoami", response: "l4na / IT student" },
-  { command: "> about", response: "興味が湧いたことを中心に積極的に取り組んでいます。\nWeb開発、インフラ、AI、セキュリティetc..." },
-  { command: "> message", response: "つくることを通して、\n人の笑顔の輪を広げられるようになりたいです :D" },
+  { command: "> whoami", response: "l4na\nWeb開発やインフラ、セキュリティ、AIなど、幅広い技術に関心があります!!" },
+  { command: "> now", response: "つくるだけで終わらず、実際に使ってもらえるものを目指して、ユーザー検証や事業化に挑戦しています。" },
+  { command: "> future", response: "技術を自分のものにして、人に寄り添ったものをつくりたいです :D" },
 ]
 
 const sections = ["about", "skills", "projects", "activities", "contact"] as const
