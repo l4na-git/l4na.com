@@ -1,0 +1,37 @@
+---
+const certifications = [
+  { date: "2025.02", name: "基本情報技術者試験", status: "合格" },
+  { date: "2025.05", name: "paiza スキルチェック(Python) Aランク", status: "取得" },
+  { date: "2025.09", name: "paiza SQLスキルチェック レベル4", status: "取得" },
+  { date: "2026.10", name: "第三級陸上特殊無線技士", status: "結果待ち" },
+  { date: "-", name: "応用情報技術者試験", status: "学習中" },
+]
+
+const achieved = ["合格", "取得"]
+---
+
+<section id="certifications" class="py-20 px-4 md:px-8 lg:px-12">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-xs font-medium text-sky-dark uppercase tracking-widest mb-2">Certifications</p>
+      <h2 class="text-2xl md:text-3xl font-bold text-navy">資格</h2>
+    </div>
+
+    <ul class="flex flex-col">
+      {certifications.map((cert) => (
+        <li class="flex flex-col gap-1 py-4 border-b border-border/60 sm:flex-row sm:items-center sm:gap-6">
+          <span class="font-mono text-xs text-muted-foreground sm:w-16 sm:shrink-0">{cert.date}</span>
+          <span class="text-sm font-medium text-navy sm:flex-1">{cert.name}</span>
+          <span
+            class:list={[
+              "self-start text-xs font-medium px-3 py-1 rounded-full sm:self-auto",
+              achieved.includes(cert.status) ? "bg-sky-medium text-white" : "bg-sky-light text-navy",
+            ]}
+          >
+            {cert.status}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
