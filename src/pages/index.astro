@@ -20,6 +20,15 @@ const ogImageUrl = new URL('/ogp.png', Astro.site);
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+		<!-- Google tag (gtag.js) -->
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-N3FXGJCVB7"></script>
+		<script is:inline>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-N3FXGJCVB7');
+		</script>
 		<meta name="generator" content={Astro.generator} />
 		<title>l4na's portfolio</title>
 		<meta name="description" content="l4naのポートフォリオサイトです。ITの専門学生として、エンジニアを目指しています。スキル、制作物、活動をまとめています。" />
