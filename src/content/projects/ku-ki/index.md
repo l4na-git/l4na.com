@@ -25,6 +25,9 @@ details: |
   - チーム内のGitフローの認識ずれを経験し、運用ルールの重要性を学んだ
 github: "https://github.com/NOT-KETCHUP/Ku-Ki_app"
 demo: "https://l4na-git.github.io/Ku-Ki_app/"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "Ku-Kiのサムネイル"
 media:
   - image: "./1.png"
     alt: "Ku-Ki 参加画面"

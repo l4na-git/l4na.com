@@ -31,6 +31,9 @@ details: |
   - 現場からの改善要望をヒアリングし、継続的に改善していく予定
   - フレームワーク未採用で改修しづらい状態だったため、TypeScript + Vue.js + Viteの構成にリプレース中
 github: "https://github.com/SIW-ShiftSystem/shift-app-public"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "シフト管理アプリのサムネイル"
 media:
   - image: "./1.png"
     alt: "シフト管理アプリ ログイン画面"

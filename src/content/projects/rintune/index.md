@@ -16,6 +16,9 @@ details: |
   - 授業で学んだFigmaのコンポーネント・バリアントを活用し保守しやすいデザインファイルを構築
   - 授業課題としてコンセプト設計からプロトタイピングまで一人で担当
 demo: "https://www.figma.com/proto/s69luAQg0ITYfXRCbqk4tk/RinTune?node-id=6690-5244&p=f&viewport=285%2C-1061%2C0.46&t=5gW8E79KOVmVTLMk-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=6671%3A2258&show-proto-sidebar=1&page-id=6003%3A418"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "RinTuneのサムネイル"
 media:
   - image: "./1.png"
     alt: "RinTune 表紙"

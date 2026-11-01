@@ -40,6 +40,10 @@ const projects = defineCollection({
       details: z.string().optional(),
       github: z.string().optional(),
       demo: z.string().optional(),
+      thumbnail: z.object({
+        image: image(), // 一覧カード用。モーダル用のmediaとは別に持つ
+        alt: z.string(),
+      }),
       media: z
         .array(
           z.object({

@@ -22,6 +22,9 @@ details: |
   実装だけでなく、必要なテストを判断したり対応したりできるようになるために、無線への理解を深めたいと考えている。
   現在は、第三級陸上特殊無線技士という資格取得に向けて学習をしている。
 demo: "https://free-wand.l4na.com"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "FREE WANDのサムネイル"
 media:
   - image: "./1.jpeg"
     alt: "FREE WAND 展示風景と術式選択画面"

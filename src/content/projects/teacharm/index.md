@@ -30,6 +30,9 @@ details: |
   - 初めてロボットアームに触れ、ソフト×ハードの統合の面白さを体験
 github: "https://github.com/l4na-git/TechArm"
 demo: "https://teacharm.figma.site"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "TeachArmのサムネイル"
 media:
   - image: "./1.png"
     alt: "TeachArm 企画"

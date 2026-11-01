@@ -17,6 +17,9 @@ details: |
   - 「提出が終わっても完成させたい」という気持ちで自主開発を継続
 github: "https://github.com/l4na-git/hit-and-blow-web"
 demo: "https://hit-and-blow-tagra.streamlit.app"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "Hit and Blow web版のサムネイル"
 media:
   - image: "./1.png"
     alt: "Hit and Blow プレイ画面"

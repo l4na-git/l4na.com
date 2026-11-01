@@ -30,4 +30,7 @@ details: |
   - Googleアナリティクス
 github: "https://github.com/SIWLiveFX/LiveFx-site"
 demo: "https://livefx.siw.ac.jp"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "LiveFx LPのサムネイル"
 ---

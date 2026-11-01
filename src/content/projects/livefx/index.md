@@ -29,6 +29,9 @@ details: |
   今後は外部のイベントでも使用してもらうことを目指しています。
 github: "https://github.com/SIWLiveFX/livefx-public"
 demo: "https://livefx.siw.ac.jp"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "LiveFxのサムネイル"
 media:
   - image: "./1.gif"
     alt: "LiveFx 演出"

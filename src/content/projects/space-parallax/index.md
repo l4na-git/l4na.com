@@ -25,6 +25,9 @@ details: |
   - 上位勢がGemini Canvasを活用しているのを見て、「必ずコードに落とす必要はない」という発想を学んだ
 github: "https://github.com/l4na-git/SpaceParallax"
 demo: "https://space-parallax-nu.vercel.app"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "SpaceParallaxのサムネイル"
 media:
   - image: "./1.png"
     alt: "SpaceParallax プレイ画面"
