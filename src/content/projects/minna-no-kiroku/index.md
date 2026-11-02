@@ -30,6 +30,9 @@ details: |
   - 自宅サーバーのDockerで運用し、Cloudflare Tunnelを利用することで、ルーターのポート開放を必要としない公開環境を構築した
   - テストや運用手順も整備し、実装だけでなく継続的な運用を見据えた開発を行った
 github: "https://github.com/l4na-git/minna-no-kiroku"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "みんなのきろくのサムネイル"
 media:
   - image: "./1.png"
     alt: "みんなのきろく 記録の一覧"
