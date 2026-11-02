@@ -13,6 +13,12 @@ export interface Project {
   github?: string
   demo?: string
   details?: string
+  thumbnail: {
+    src: string
+    alt: string
+    width: number
+    height: number
+  }
   media?: {
     src: string
     alt: string

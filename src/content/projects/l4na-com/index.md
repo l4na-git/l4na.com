@@ -23,4 +23,7 @@ details: |
   - 設計方針や品質面の判断は自分で行った
 github: "https://github.com/l4na-git/l4na.com"
 demo: "https://www.l4na.com"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "l4na.comのサムネイル"
 ---

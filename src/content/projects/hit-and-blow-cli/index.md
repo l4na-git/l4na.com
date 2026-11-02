@@ -19,6 +19,9 @@ details: |
   - 非同期処理を独学で調べて実装に挑戦
   - バージョン差異による環境問題を経験し、環境管理の重要性を学んだ
 github: "https://github.com/l4na-git/HIT_and_BLOW_public"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "Hit and Blow CLI版のサムネイル"
 media:
   - image: "./1.png"
     alt: "Hit and Blow メニュー"

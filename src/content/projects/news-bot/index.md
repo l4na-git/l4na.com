@@ -22,6 +22,9 @@ details: |
   - Markdownを活用し、読みやすい配信
   - AWS Lambdaは授業、EventBridgeは自宅サーバ時代のcron知識が活きて詰まらず実装できた
 github: "https://github.com/l4na-git/discord-news-bot"
+thumbnail:
+  image: "./thumbnail.png"
+  alt: "ITニュース配信システムのサムネイル"
 media:
   - image: "./1.png"
     alt: "ITニュース Discord配信"
