@@ -55,7 +55,7 @@ const projects = await Promise.all(
       context: entry.data.team.context,
       role: entry.data.role,
       highlight: entry.data.highlight,
-      details: entry.data.details,
+      details: entry.rendered?.html || undefined,
       github: entry.data.github,
       demo: entry.data.demo,
       thumbnail,
