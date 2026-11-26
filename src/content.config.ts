@@ -37,7 +37,6 @@ const projects = defineCollection({
         }),
       role: z.string().optional(),
       highlight: z.string(),
-      details: z.string().optional(),
       github: z.string().optional(),
       demo: z.string().optional(),
       thumbnail: z.object({

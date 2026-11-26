@@ -195,9 +195,11 @@ export function ProjectModal() {
             {project.details && (
               <div className="mb-6">
                 <h3 className="text-sm font-semibold text-navy mb-2">詳細説明</h3>
-                <p className="text-sm text-muted-foreground whitespace-pre-line">
-                  {project.details}
-                </p>
+                {/* detailsはリポジトリ内のmd本文からビルド時に生成したHTMLなので信頼できる */}
+                <div
+                  className="prose prose-sm max-w-none [--tw-prose-body:var(--muted-foreground)] [--tw-prose-bullets:var(--muted-foreground)] [--tw-prose-counters:var(--muted-foreground)] [--tw-prose-headings:var(--navy)] [--tw-prose-bold:var(--navy)] [--tw-prose-links:var(--sky-dark)]"
+                  dangerouslySetInnerHTML={{ __html: project.details }}
+                />
               </div>
             )}
 
