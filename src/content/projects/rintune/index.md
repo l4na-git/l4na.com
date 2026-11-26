@@ -8,13 +8,6 @@ team:
   format: "個人開発"
   context: "授業課題"
 highlight: "ペルソナ分析と狩野モデルによる機能優先度整理を経て、UIのトーン・配色までを考える"
-details: |
-  2年次の授業課題として制作。「時間は誰かに決められるものではなく、自分でコントロールするもの」というコンセプトのもと、生活リズムを整えるモバイルアプリをFigmaでデザインしました。
-
-  工夫した点・学び：
-  - コンセプトをUIの雰囲気やトーンに落とし込むこと
-  - 授業で学んだFigmaのコンポーネント・バリアントを活用し保守しやすいデザインファイルを構築
-  - 授業課題としてコンセプト設計からプロトタイピングまで一人で担当
 demo: "https://www.figma.com/proto/s69luAQg0ITYfXRCbqk4tk/RinTune?node-id=6690-5244&p=f&viewport=285%2C-1061%2C0.46&t=5gW8E79KOVmVTLMk-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=6671%3A2258&show-proto-sidebar=1&page-id=6003%3A418"
 thumbnail:
   image: "./thumbnail.png"
@@ -45,3 +38,11 @@ media:
   - image: "./12.png"
     alt: "RinTune 配色"
 ---
+
+2年次の授業課題として制作。「時間は誰かに決められるものではなく、自分でコントロールするもの」というコンセプトのもと、生活リズムを整えるモバイルアプリをFigmaでデザインしました。
+
+工夫した点・学び：
+
+- コンセプトをUIの雰囲気やトーンに落とし込むこと
+- 授業で学んだFigmaのコンポーネント・バリアントを活用し保守しやすいデザインファイルを構築
+- 授業課題としてコンセプト設計からプロトタイピングまで一人で担当
